@@ -16,11 +16,23 @@
 <body>
     <header>
         <nav>
-            <ul>
+            <button class="mobile-menu-toggle" aria-label="Відкрити меню">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="nav-links">
                 <li><a href="index.html">Головна</a></li>
                 <li><a href="about.html" target="_blank" id="aboutMeLink">Про мене</a></li>
                 <li><a href="#">Послуги</a></li>
-                <li><a href="#" id="contactsBtn">Контакти</a></li>
+                <li>
+                    <a href="#" id="contactsBtn">Контакти</a>
+                    <div class="dropdown-menu">
+                        <div class="contact-info">
+                            <p>📞 <a href="tel:+380939261637">+38 093 926 16 37</a></p>
+                            <p>✉️ <a href="mailto:temnyj83@gmail.com">temnyj83@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -123,8 +135,35 @@
         </div>
     </main>
     <footer>
-        <p>&copy; 2© 2025 Мій Веб-сайт. Всі права захищені.</p>
+        <p>&copy; 2025 Мій Веб-сайт. Всі права захищені.</p>
     </footer>
+
+    <!-- Contact modal -->
+    <div id="contactsModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="contactsTitle">
+        <div class="modal-overlay" data-close="true"></div>
+        <div class="modal-content" role="document">
+            <button class="modal-close" aria-label="Закрити">&times;</button>
+            <h2 id="contactsTitle">Контакти</h2>
+            <p>Телефон: <a href="tel:+380939261637">+38 093 926 16 37</a></p>
+            <p>Email: <a href="mailto:temnyj83@gmail.com">temnyj83@gmail.com</a></p>
+            <div class="social-links">
+                <a href="#" class="social-icon viber" aria-label="Viber" title="Viber"><i
+                        class="fa-brands fa-viber"></i></a>
+                <a href="#" class="social-icon telegram" aria-label="Telegram" title="Telegram"><i
+                        class="fa-brands fa-telegram"></i></a>
+                <a href="#" class="social-icon whatsapp" aria-label="WhatsApp" title="WhatsApp"><i
+                        class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="social-icon instagram" aria-label="Instagram" title="Instagram"><i
+                        class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-icon facebook" aria-label="Facebook" title="Facebook"><i
+                        class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="social-icon tiktok" aria-label="TikTok" title="TikTok"><i
+                        class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>
