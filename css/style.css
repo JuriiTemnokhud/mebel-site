@@ -246,6 +246,7 @@ main {
 }
 
 .portfolio-text {
+    background-color: white;
     flex: 1;
     padding: 2.5rem;
     display: flex;
