@@ -1511,6 +1511,33 @@ nav ul li:hover .dropdown-menu {
         min-height: auto;
     }
 
+    /* Gallery Modal Mobile */
+    .gallery-container {
+        padding: 15px !important;
+        max-height: 95vh;
+        width: 100vw;
+        border-radius: 0;
+    }
+
+    .gallery-header {
+        margin-bottom: 12px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .gallery-header h2 {
+        font-size: 1.1rem !important;
+        line-height: 1.2;
+    }
+
+    .gallery-close {
+        font-size: 1.5rem !important;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+        gap: 8px !important;
+    }
+
     /* Collaboration Steps */
     .steps-timeline {
         flex-direction: column;
