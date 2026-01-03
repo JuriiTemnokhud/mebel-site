@@ -11,6 +11,52 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 4000); // Remove after 4 seconds (3.2s animation + 0.8s fade)
     }
 
+    // Hamburger menu toggle logic
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinksList = document.querySelector('.nav-links');
+
+    if (menuToggle && navLinksList) {
+        menuToggle.addEventListener('click', function () {
+            navLinksList.classList.toggle('active');
+            // Change icon if needed
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                if (navLinksList.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+
+        // Close menu when a link is clicked
+        const links = navLinksList.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksList.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinksList.contains(e.target)) {
+                navLinksList.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    }
+
     // Приклад: додавання активного класу до посилання навігації
     const navLinks = document.querySelectorAll('nav a');
 
