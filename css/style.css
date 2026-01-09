@@ -422,6 +422,13 @@ main {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Ensure modal content sits above overlay and text is visible */
+.manufacturer-modal-content {
+    position: relative;
+    z-index: 10001;
+    color: #222;
+}
+
 .manufacturer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
