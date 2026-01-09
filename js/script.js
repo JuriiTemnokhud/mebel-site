@@ -85,6 +85,13 @@ document.addEventListener('DOMContentLoaded', function () {
         contactsModal.setAttribute('aria-hidden', 'true');
     }
 
+    function closeModalAndRestoreFocus() {
+        closeModal();
+        try {
+            if (contactsBtn) contactsBtn.focus(); else document.body.focus();
+        } catch (e) {}
+    }
+
     if (contactsBtn) {
         contactsBtn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -117,6 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
         servicesModal.setAttribute('aria-hidden', 'true');
     }
 
+    function closeServicesAndRestoreFocus() {
+        closeServices();
+        try {
+            if (servicesBtn) servicesBtn.focus(); else document.body.focus();
+        } catch (e) {}
+    }
+
     if (servicesBtn) {
         servicesBtn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -127,35 +141,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (servicesClose) {
         servicesClose.addEventListener('click', function () {
-            closeServices();
+            closeServicesAndRestoreFocus();
         });
     }
 
     // close when clicking on overlay for services modal
     servicesModal && servicesModal.addEventListener('click', function (e) {
         if (e.target && e.target.matches('.modal-overlay')) {
-            closeServices();
+            closeServicesAndRestoreFocus();
         }
     });
 
     if (modalClose) {
         modalClose.addEventListener('click', function () {
-            closeModal();
+            closeModalAndRestoreFocus();
         });
     }
 
     // close when clicking on overlay
     contactsModal && contactsModal.addEventListener('click', function (e) {
         if (e.target && e.target.matches('.modal-overlay')) {
-            closeModal();
+            closeModalAndRestoreFocus();
         }
     });
 
     // close on ESC
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' || e.key === 'Esc') {
-            if (contactsModal && contactsModal.classList.contains('open')) closeModal();
-            if (servicesModal && servicesModal.classList.contains('open')) closeServices();
+            if (contactsModal && contactsModal.classList.contains('open')) closeModalAndRestoreFocus();
+            if (servicesModal && servicesModal.classList.contains('open')) closeServicesAndRestoreFocus();
         }
     });
 
