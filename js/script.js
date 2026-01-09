@@ -102,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const servicesModal = document.getElementById('servicesModal');
     const servicesClose = servicesModal ? servicesModal.querySelector('.modal-close') : null;
 
+    console.log('servicesBtn present:', !!servicesBtn, 'servicesModal present:', !!servicesModal);
+
     function openServices() {
         if (!servicesModal) return;
         servicesModal.classList.add('open');
@@ -118,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (servicesBtn) {
         servicesBtn.addEventListener('click', function (e) {
             e.preventDefault();
+            console.log('servicesBtn clicked');
             openServices();
         });
     }
