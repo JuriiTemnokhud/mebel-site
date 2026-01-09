@@ -30,7 +30,9 @@
                                 <li><a href="index.html">Головна</a></li>
                                 <li><a href="about.html" target="_blank" id="aboutMeLink">Про мене</a></li>
                                 <li><a href="calculator.html" target="_blank">Калькулятор</a></li>
-                                <li><a href="#">Послуги</a></li>
+                                <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li>
+                                <li><a href="constructor-v2.html" target="_blank">Новий Конструктор (v2)</a></li>
+                                <li><a href="#" id="servicesBtn">Послуги</a></li>
                                 <li>
                                         <a href="#" id="contactsBtn">Контакти</a>
                                         <div class="dropdown-menu">
@@ -72,6 +74,53 @@
                                         до професійного монтажу корпусних меблів для дому, офісу та бізнесу. Якість,
                                         стиль та індивідуальний підхід — для вашого ідеального інтер'єру.</p>
                         </div>
+
+                                <!-- Services modal -->
+                                <div id="servicesModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="servicesTitle">
+                                        <div class="modal-overlay" data-close="true"></div>
+                                        <div class="manufacturer-modal-content" role="document">
+                                                <button class="modal-close" aria-label="Закрити">&times;</button>
+                                                <h2 id="servicesTitle">Послуги</h2>
+                                                <p>Ми надаємо повний спектр послуг для вашого інтер'єру. Основні позиції:</p>
+                                                <ul>
+                                                        <li>Безкоштовний замір</li>
+                                                        <li>Консультація та прорахунок</li>
+                                                        <li>Проектування інтер'єру та креслення</li>
+                                                        <li>Замовлення матеріалів та порізка</li>
+                                                        <li>Контроль якості на всіх етапах підготовки</li>
+                                                        <li>Доставка та монтаж</li>
+                                                        <li>Здача проєкту у обумовлені строки</li>
+                                                </ul>
+                                                <p>Додатково ми можемо запропонувати: післягарантійне обслуговування, підбір побутової техніки, виїзд майстра для монтажу, і персоналізовані підходи до матеріалів та ергономіки.</p>
+
+                                                <h3>Замовити послугу</h3>
+                                                <form id="serviceOrderForm">
+                                                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                                                <input type="text" name="name" id="orderName" placeholder="Ваше ім'я" required style="flex:1;min-width:200px;padding:8px;border:1px solid #ccc;border-radius:6px;">
+                                                                <input type="tel" name="phone" id="orderPhone" placeholder="Телефон" required style="flex:1;min-width:200px;padding:8px;border:1px solid #ccc;border-radius:6px;">
+                                                        </div>
+                                                        <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;">
+                                                                <input type="email" name="email" id="orderEmail" placeholder="Email (необов'язково)" style="flex:1;min-width:200px;padding:8px;border:1px solid #ccc;border-radius:6px;">
+                                                                <select name="service" id="orderService" required style="flex:1;min-width:200px;padding:8px;border:1px solid #ccc;border-radius:6px;">
+                                                                        <option value="">Оберіть послугу...</option>
+                                                                        <option value="zamir">Безкоштовний замір</option>
+                                                                        <option value="konsultacia">Консультація і прорахунок</option>
+                                                                        <option value="proektuvannia">Проектування</option>
+                                                                        <option value="materialy">Замовлення матеріалів і порізка</option>
+                                                                        <option value="montazh">Доставка та монтаж</option>
+                                                                        <option value="povnij_paket">Повний пакет (всі етапи)</option>
+                                                                </select>
+                                                        </div>
+                                                        <div style="margin-top:8px;">
+                                                                <textarea name="message" id="orderMessage" placeholder="Короткий опис або побажання" rows="4" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></textarea>
+                                                        </div>
+                                                        <div style="margin-top:10px;display:flex;gap:10px;align-items:center;">
+                                                                <button type="submit" style="background:#667eea;color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;">Замовити</button>
+                                                                <span id="orderStatus" style="color:green;font-weight:600;display:none;">Дякуємо! Ваш запит надіслано.</span>
+                                                        </div>
+                                                </form>
+                                        </div>
+                                </div>
                 </section>
 
                 <!-- Portfolio Section -->

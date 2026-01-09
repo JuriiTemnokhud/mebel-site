@@ -97,6 +97,44 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Services modal logic
+    const servicesBtn = document.getElementById('servicesBtn');
+    const servicesModal = document.getElementById('servicesModal');
+    const servicesClose = servicesModal ? servicesModal.querySelector('.modal-close') : null;
+
+    function openServices() {
+        if (!servicesModal) return;
+        servicesModal.classList.add('open');
+        servicesModal.setAttribute('aria-hidden', 'false');
+        if (servicesClose) servicesClose.focus();
+    }
+
+    function closeServices() {
+        if (!servicesModal) return;
+        servicesModal.classList.remove('open');
+        servicesModal.setAttribute('aria-hidden', 'true');
+    }
+
+    if (servicesBtn) {
+        servicesBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            openServices();
+        });
+    }
+
+    if (servicesClose) {
+        servicesClose.addEventListener('click', function () {
+            closeServices();
+        });
+    }
+
+    // close when clicking on overlay for services modal
+    servicesModal && servicesModal.addEventListener('click', function (e) {
+        if (e.target && e.target.matches('.modal-overlay')) {
+            closeServices();
+        }
+    });
+
     if (modalClose) {
         modalClose.addEventListener('click', function () {
             closeModal();
@@ -114,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' || e.key === 'Esc') {
             if (contactsModal && contactsModal.classList.contains('open')) closeModal();
+            if (servicesModal && servicesModal.classList.contains('open')) closeServices();
         }
     });
 
@@ -376,6 +415,45 @@ document.addEventListener('DOMContentLoaded', function () {
     })();
     // Contact Form Handling - Standard HTML Submission (AJAX removed for reliability/activation)
     // The form in index.html will handle the POST request directly.
+
+    // Service Order Form handling
+    const serviceOrderForm = document.getElementById('serviceOrderForm');
+    if (serviceOrderForm) {
+        serviceOrderForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(serviceOrderForm);
+            const order = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                service: formData.get('service'),
+                message: formData.get('message'),
+                date: new Date().toISOString()
+            };
+
+            // Save to localStorage (simple queue) — replace with server POST when available
+            try {
+                const existing = JSON.parse(localStorage.getItem('serviceOrders') || '[]');
+                existing.push(order);
+                localStorage.setItem('serviceOrders', JSON.stringify(existing));
+            } catch (err) {
+                console.error('Service order save error', err);
+            }
+
+            const status = document.getElementById('orderStatus');
+            if (status) {
+                status.style.display = 'inline';
+            }
+
+            // small visual feedback and reset form
+            setTimeout(() => {
+                serviceOrderForm.reset();
+                if (status) status.style.display = 'none';
+                closeServices();
+            }, 1800);
+        });
+    }
 
 
     // Review Modal Logic
