@@ -1626,3 +1626,26 @@ body.constructor-body .constructor-header p {
     color: rgba(255, 255, 255, 0.8);
     font-size: 1.1rem;
 }
+
+/* Global Sticky Header Styles */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 100%;
+}
+
+body.calc-body header {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+
+
+header.nav-up {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}

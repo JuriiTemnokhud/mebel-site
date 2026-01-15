@@ -130,46 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (servicesBtn) servicesBtn.focus(); else document.body.focus();
         } catch (e) {}
     }
-
-    if (servicesBtn) {
-        servicesBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            console.log('servicesBtn clicked');
-            openServices();
-        });
-    }
-
-    if (servicesClose) {
-        servicesClose.addEventListener('click', function () {
-            closeServicesAndRestoreFocus();
-        });
-    }
-
-    // close when clicking on overlay for services modal
-    servicesModal && servicesModal.addEventListener('click', function (e) {
-        if (e.target && e.target.matches('.modal-overlay')) {
-            closeServicesAndRestoreFocus();
-        }
-    });
-
-    if (modalClose) {
-        modalClose.addEventListener('click', function () {
-            closeModalAndRestoreFocus();
-        });
-    }
-
-    // close when clicking on overlay
-    contactsModal && contactsModal.addEventListener('click', function (e) {
-        if (e.target && e.target.matches('.modal-overlay')) {
-            closeModalAndRestoreFocus();
-        }
-    });
-
-    // close on ESC
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' || e.key === 'Esc') {
-            if (contactsModal && contactsModal.classList.contains('open')) closeModalAndRestoreFocus();
-            if (servicesModal && servicesModal.classList.contains('open')) closeServicesAndRestoreFocus();
+            // ...existing code...
         }
     });
 

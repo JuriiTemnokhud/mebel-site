@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Конструктор V2</title>
+    <link rel="stylesheet" href="css/style.css?v=3.7">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Ensure the iframe container takes most of the height */
+        .constructor-section {
+            padding: 1rem 0;
+            margin-bottom: 0;
+            position: relative;
+            /* Needed for the absolute mask */
+        }
+
+        .constructor-iframe {
+            height: 80vh;
+            /* Adjust if needed */
+        }
+    </style>
+</head>
+
+<body class="calc-body constructor-body">
+
+
+    <div class="constructor-container">
+        <header class="constructor-header">
+            <h1>3D Конструктор (Новий)</h1>
+            <p>Новий професійний інструмент з українською мовою</p>
+        </header>
+
+        <div class="constructor-section" id="constructorSection">
+            <iframe src="https://planplace.kz/clients/12729646/?" class="constructor-iframe" title="3D Constructor V2"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div
+            style="text-align: center; margin-top: 1rem; color: rgba(255,255,255,0.6); font-size: 0.9rem; padding-bottom: 2rem;">
+            <p>Завантаження може тривати кілька секунд. Спробуйте нові можливості проектування.</p>
+        </div>
+    </div>
+    <script>
+        // Hide/Show Header on Scroll
+        let lastScrollTop = 0;
+        const calcHeader = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                // Scroll Down
+                if (calcHeader) calcHeader.classList.add('nav-up');
+            } else {
+                // Scroll Up
+                if (calcHeader) calcHeader.classList.remove('nav-up');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
+    </script>
+</body>
+
+</html>

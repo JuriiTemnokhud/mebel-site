@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Конструктор Меблів</title>
+    <link rel="stylesheet" href="css/style.css?v=3.6">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Specific overrides if needed, but using style.css mostly */
+    </style>
+</head>
+
+<body class="calc-body constructor-body">
+
+
+    <div class="constructor-container">
+        <header class="constructor-header">
+            <h1>3D Конструктор</h1>
+            <p>Створіть дизайн своєї мрії онлайн</p>
+        </header>
+
+        <div class="constructor-section">
+            <iframe
+                src="https://constructor.prodboard.com/SR_3f9652cfc7394415b3aa32d60ecb44f5/9S4J/?lang=uk&language=uk&lng=uk&locale=uk"
+                class="constructor-iframe" title="3D Constructor" allowfullscreen>
+            </iframe>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem; color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+            <p>Завантаження конструктора може зайняти деякий час.</p>
+        </div>
+    </div>
+    <script>
+        // Hide/Show Header on Scroll
+        let lastScrollTop = 0;
+        const calcHeader = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                // Scroll Down
+                calcHeader.classList.add('nav-up');
+            } else {
+                // Scroll Up
+                calcHeader.classList.remove('nav-up');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
+    </script>
+</body>
+
+</html>
