@@ -34,7 +34,7 @@
 <body class="calc-body constructor-body">
     <header>
         <nav>
-            <button class="mobile-menu-toggle" aria-label="Відкрити меню">
+            <button class="mobile-menu-toggle" aria-label="Відкрити меню" onclick="toggleMobileMenu(event)">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <ul class="nav-links">
@@ -114,6 +114,7 @@
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         }, { passive: true });
     </script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

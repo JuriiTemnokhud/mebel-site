@@ -1475,7 +1475,8 @@ nav ul li:hover .dropdown-menu {
     }
 
     nav ul.nav-links.active {
-        display: flex;
+        display: flex !important;
+        z-index: 9999;
     }
 
     nav ul.nav-links li {
@@ -1648,4 +1649,108 @@ header.nav-up {
     transform: translateY(-100%);
     opacity: 0;
     pointer-events: none;
+}
+
+/* --- About Page Renovated Styles --- */
+.about-page-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.about-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 4rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.script-title {
+    font-family: 'Marck Script', cursive;
+    color: #5b4fa7; /* Deep purple/blue */
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+.bio-text {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.bio-text p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    color: #444;
+}
+
+.bio-text p:last-child {
+    margin-bottom: 0;
+}
+
+.bio-text strong {
+    color: #4e4376; /* Accent color */
+    font-weight: 600;
+}
+
+/* Partners Section Adjustments */
+.partners-section {
+    margin-bottom: 4rem;
+}
+
+.partners-section h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.partners-intro {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .script-title {
+        font-size: 2.5rem;
+    }
+    
+    .bio-text p {
+        font-size: 1rem;
+    }
 }

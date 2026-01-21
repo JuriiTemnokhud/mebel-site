@@ -23,16 +23,16 @@
 
         <header>
                 <nav>
-                        <button class="mobile-menu-toggle" aria-label="Відкрити меню">
+                        <button class="mobile-menu-toggle" aria-label="Відкрити меню" onclick="toggleMobileMenu(event)">
                                 <i class="fa-solid fa-bars"></i>
                         </button>
                         <ul class="nav-links">
-                                <li><a href="index.html">Головна</a></li>
-                                <li><a href="about.html" target="_blank" id="aboutMeLink">Про мене</a></li>
-                                <li><a href="calculator.html" target="_blank">Калькулятор</a></li>
+                                <li><a href="#home" data-route="home">Головна</a></li>
+                                <li><a href="#about" data-route="about" id="aboutMeLink">Про мене</a></li>
+                                <li><a href="#calculator" data-route="calculator">Калькулятор</a></li>
                                 <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li>
                                 <li><a href="constructor-v2.html" target="_blank">Новий Конструктор (v2)</a></li>
-                                <li><a href="services.html" target="_blank" rel="noopener">Послуги</a></li>
+                                <li><a href="#services" data-route="services">Послуги</a></li>
                                 <li>
                                         <a href="#" id="contactsBtn">Контакти</a>
                                         <div class="dropdown-menu">
@@ -65,983 +65,589 @@
                 </nav>
         </header>
 
-        <main>
-                <section class="hero">
-                        <div class="container">
-                                <h1>Ласкаво прошу на мій веб-сайт!</h1>
-                                <p>Це Ваш простір для творчості та створення меблів вашої мрії</p>
-                                <p class="hero-subtitle">Пропоную повний цикл послуг: від проектування та виготовлення
-                                        до професійного монтажу корпусних меблів для дому, офісу та бізнесу. Якість,
-                                        стиль та індивідуальний підхід — для вашого ідеального інтер'єру.</p>
-                                </div>
-                </section>
+        <!-- SPA Content Container -->
+        <main id="app-content">
+                <!-- Content will be loaded dynamically by router -->
+                <div class="loading-spinner" style="text-align: center; padding: 3rem;">
+                        <p>Завантаження...</p>
+                </div>
+        </main>
 
-                <!-- Portfolio Section -->
-                <section class="portfolio">
-                        <div class="container">
-                                <h2>Мої роботи</h2>
-
-                                <div class="portfolio-grid">
-                                        <!-- Work 1 - Кухні -->
-                                        <div class="portfolio-item" id="kukhnia-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Кухні</h3>
-                                                        <p>Кухні: Серце Вашого Затишку. Створюємо ергономічні кухні на
-                                                                замовлення, які поєднують ідеальний дизайн,
-                                                                функціональність
-                                                                і довговічність. Простір, де готують із задоволенням.
-                                                        </p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20кухні.jpg"
-                                                                alt="Кухні" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 2 - Шафи -->
-                                        <div class="portfolio-item" id="shafy-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Шафи</h3>
-                                                        <p>Шафи на замовлення: максимум простору та стилю. Проектуємо
-                                                                вбудовані та окремі шафи, що ідеально вписуються у ваш
-                                                                інтер'єр та вирішують питання зберігання.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20шафи.png"
-                                                                alt="Шафи" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 3 - Спальні -->
-                                        <div class="portfolio-item" id="spalni-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Спальні</h3>
-                                                        <p>Спальні вашої мрії. Створюємо затишні та комфортні спальні
-                                                                кімнати з індивідуальним підходом до кожної деталі.
-                                                                Місце для повноцінного відпочинку.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20спальні.png"
-                                                                alt="Спальні" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 4 - Дитячі -->
-                                        <div class="portfolio-item" id="dytyachi-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Дитячі</h3>
-                                                        <p>Дитячі кімнати з любов'ю. Проектуємо яскраві та функціональні
-                                                                простори для ваших дітей, де можна грати, навчатися
-                                                                та мріяти.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20дитячі.jpg"
-                                                                alt="Дитячі" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 5 - Кабінети -->
-                                        <div class="portfolio-item" id="kabinety-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Кабінети</h3>
-                                                        <p>Робочі кабінети для продуктивності. Створюємо ергономічні
-                                                                домашні офіси та кабінети, де комфортно працювати
-                                                                та досягати цілей.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20кабінети.jpg"
-                                                                alt="Кабінети" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 6 - Санвузли -->
-                                        <div class="portfolio-item" id="sanvuzly-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Санвузли</h3>
-                                                        <p>Санвузли преміум-класу. Розробляємо стильні та практичні
-                                                                ванні кімнати з якісними матеріалами та увагою
-                                                                до кожної деталі.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20санвузли.jpg"
-                                                                alt="Санвузли" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 7 - ТВ-зони -->
-                                        <div class="portfolio-item" id="tv-zony-item">
-                                                <div class="portfolio-text">
-                                                        <h3>ТВ-зони</h3>
-                                                        <p>ТВ-зони для вашого комфорту. Проектуємо сучасні медіа-стіни
-                                                                та ТВ-зони, що стають центром сімейного відпочинку
-                                                                та розваг.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/ТВ-зони/photo_1_2025-11-30_20-47-20.jpg"
-                                                                alt="ТВ-зони" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-
-                                        <!-- Work 8 - Передпокої -->
-                                        <div class="portfolio-item" id="peredpokoi-item">
-                                                <div class="portfolio-text">
-                                                        <h3>Передпокої - Гардеробні</h3>
-                                                        <p>Передпокої з характером. Створюємо функціональні та естетичні
-                                                                вхідні зони, що справляють перше враження про ваш дім
-                                                                та забезпечують зручність.</p>
-                                                </div>
-                                                <div class="portfolio-image">
-                                                        <img src="images/My%20Work/Фон%20контейнера%20передпокої.jpg"
-                                                                alt="Передпокої" class="portfolio-img" loading="lazy">
-                                                </div>
-                                        </div>
-                                </div>
+        <!-- Modals and other global elements remain here -->
+        <!-- Contact modal -->
+        <div id="contactsModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="contactsTitle">
+                <div class="modal-overlay" data-close="true"></div>
+                <div class="modal-content" role="document">
+                        <button class="modal-close" aria-label="Закрити">&times;</button>
+                        <h2 id="contactsTitle">Контакти</h2>
+                        <p>Телефон: <a href="tel:+380939261637">+38 093 926 16 37</a></p>
+                        <p>Email: <a href="mailto:temnyj83@gmail.com">temnyj83@gmail.com</a></p>
+                        <div class="social-links">
+                                <a href="#" class="social-icon viber" aria-label="Viber" title="Viber"><i
+                                                class="fa-brands fa-viber"></i></a>
+                                <a href="#" class="social-icon telegram" aria-label="Telegram" title="Telegram"><i
+                                                class="fa-brands fa-telegram"></i></a>
+                                <a href="#" class="social-icon whatsapp" aria-label="WhatsApp" title="WhatsApp"><i
+                                                class="fa-brands fa-whatsapp"></i></a>
+                                <a href="#" class="social-icon instagram" aria-label="Instagram" title="Instagram"><i
+                                                class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="social-icon facebook" aria-label="Facebook" title="Facebook"><i
+                                                class="fa-brands fa-facebook"></i></a>
+                                <a href="#" class="social-icon tiktok" aria-label="TikTok" title="TikTok"><i
+                                                class="fa-brands fa-tiktok"></i></a>
                         </div>
-                        </div>
-                </section>
+                </div>
+        </div>
 
-                <!-- Stages of Cooperation Section -->
-                <section class="collaboration-steps">
-                        <div class="container">
-                                <h2>Етапи Співпраці</h2>
-                                <div class="steps-timeline">
-                                        <!-- Step 1 -->
-                                        <div class="step-item">
-                                                <div class="step-icon">👤</div>
-                                                <h3>Заявка</h3>
-                                                <p>Ви залишаєте заявку на сайті або телефонуєте нам для консультації.
-                                                </p>
-                                        </div>
-                                        <!-- Step 2 -->
-                                        <div class="step-item">
-                                                <div class="step-icon">📏</div>
-                                                <h3>Заміри та 3D</h3>
-                                                <p>Знімаємо точні розміри та створюємо 3D-проект ваших майбутніх меблів.
-                                                </p>
-                                        </div>
-                                        <!-- Step 3 -->
-                                        <div class="step-item">
-                                                <div class="step-icon">📋</div>
-                                                <h3>Договір</h3>
-                                                <p>Узгоджуємо матеріали, фурнітуру, ціну, терміни та підписуємо договір.
-                                                </p>
-                                        </div>
-                                        <!-- Step 4 -->
-                                        <div class="step-item">
-                                                <div class="step-icon">⚙️</div>
-                                                <h3>Виробництво</h3>
-                                                <p>Замовляємо матеріали, порізку та фурнітуру на ВіЯрі.</p>
-                                        </div>
-                                        <!-- Step 5 -->
-                                        <div class="step-icon-mobile-arrow">⬇️</div> <!-- Mobile clarity -->
-                                        <div class="step-item">
-                                                <div class="step-icon">🚚</div>
-                                                <h3>Доставка та Монтаж</h3>
-                                                <p>Дбайливо доставляємо та професійно збираємо меблі у вас вдома.</p>
-                                        </div>
-                                        <!-- Step 6 -->
-                                        <div class="step-item">
-                                                <div class="step-icon">🤝</div>
-                                                <h3>Здача проекту</h3>
-                                                <p>Ви приймаєте роботу та насолоджуєтесь комфортом нових меблів.</p>
-                                        </div>
+        <!-- Gallery Modal (Кухні) -->
+        <div id="kukhniaGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Кухні</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid" id="galleryGrid">
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211106_224011.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211110_194907.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211110_194914.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211110_195133.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211110_195300.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_193825.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_193836.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_193949.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_193952.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194000.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194002.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194004.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194103.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194105.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194110.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194116.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20211207_194118.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220118_092545.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220212_170201.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220212_170217.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220212_170247.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220212_170305.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220212_170319.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20220212_170342.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20221112_112509.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20221112_112602.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20221112_112607.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20230823_161225.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/IMG_20240424_154816.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кухні/IMG-2410d14d25cd728a85781cd9f13ee97e-V.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кухні/IMG-6b1cdc951a51009a9cc3e865adc3dde8-V.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кухні/IMG-7051a9c8eccbffa10f8bc73d516036a6-V.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кухні/IMG-715fb6bc0f1c4cea51ed6a34723f2635-V.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_1_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_10_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_11_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_12_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_18_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_19_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2024-12-22_16-24-26.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2025-11-30_19-36-18.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2025-11-30_19-36-33.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2025-11-30_19-36-42.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2025-11-30_19-45-19.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_2025-12-01_10-20-09.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_3_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_32_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_4_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_5_2025-11-30_20-47-40.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_5_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_6_2025-11-30_20-47-40.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_6_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_7_2025-11-30_20-47-40.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_7_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_8_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_9_2025-12-01_10-18-20.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_90_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_91_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_93_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кухні/photo_94_2025-11-30_20-48-49.jpg"
+                                                alt="Кухні"></div>
+                                <div class="thumb"><video src="images/My%20Work/Кухні/video_2025-11-30_19-45-29.mp4"
+                                                muted></video></div>
+                                <div class="thumb"><video
+                                                src="images/My%20Work/Кухні/video_2025-11-30_20-47-20%20(3).mp4"
+                                                muted></video></div>
+                                <div class="thumb"><video
+                                                src="images/My%20Work/Кухні/video_2025-11-30_20-47-40%20(2).mp4"
+                                                muted></video></div>
+                                <div class="thumb"><video src="images/My%20Work/Кухні/video_2025-11-30_20-47-40.mp4"
+                                                muted></video></div>
+                                <div class="thumb"><video src="images/My%20Work/Кухні/video_2025-12-01_10-17-57.mp4"
+                                                muted></video></div>
+                                <div class="thumb"><video src="images/My%20Work/Кухні/video_2025-12-01_10-23-00.mp4"
+                                                muted></video></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+        <!-- Gallery Modal (Shafy) -->
+        <div id="shafyGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Шафи</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img src="images/My%20Work/Шафи/IMG_20220731_165713.jpg" alt="Шафи">
                                 </div>
-                        </div>
-                        <!-- Reviews Section Link & Carousel -->
-                        <section class="reviews-section" style="padding: 2rem 0; text-align: center;">
-                                <div class="container">
-                                        <div class="reviews-header" style="text-align: center; margin-bottom: 2.5rem;">
-                                                <a href="reviews.html" target="_blank" style="text-decoration: none;">
-                                                        <h2 style="color: #2c3e50; transition: color 0.3s;"
-                                                                onmouseover="this.style.color='#667eea'"
-                                                                onmouseout="this.style.color='#2c3e50'">Відгуки
-                                                                клієнтів ↗</h2>
-                                                </a>
-                                                <p style="margin-top: 1rem; color: #666;">Натисніть на заголовок, щоб
-                                                        залишити відгук.</p>
-                                        </div>
-
-                                        <!-- Reviews Carousel -->
-                                        <div class="reviews-carousel-wrapper"
-                                                style="position: relative; max-width: 1200px; margin: 0 auto; overflow: hidden; padding: 20px 0;">
-                                                <button class="carousel-arrow carousel-prev"
-                                                        id="reviewsPrev">&#10094;</button>
-
-                                                <div class="reviews-track" id="reviewsTrack"
-                                                        style="display: flex; gap: 20px; transition: transform 0.5s ease; padding: 10px;">
-                                                        <!-- Reviews will be loaded here dynamically -->
-                                                </div>
-
-                                                <button class="carousel-arrow carousel-next"
-                                                        id="reviewsNext">&#10095;</button>
-                                        </div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/IMG_20220731_165739.jpg" alt="Шафи">
                                 </div>
-                        </section>
-
-                        <!-- Leave a Request Section -->
-                        <section class="request-section" id="contactFormSection">
-                                <div class="container">
-                                        <div class="request-content">
-                                                <h2>Бажаєте замовити меблі?</h2>
-                                                <p>Залиште заявку, і ми зв'яжемося з вами для консультації та
-                                                        безкоштовного розрахунку вартості.</p>
-
-                                                <form class="contact-form" id="contactForm"
-                                                        action="https://formsubmit.co/temnyj83@gmail.com" method="POST">
-                                                        <!-- FormSubmit Configuration -->
-                                                        <input type="hidden" name="_subject"
-                                                                value="Нова заявка з сайту меблів">
-                                                        <input type="hidden" name="_template" value="table">
-                                                        <input type="hidden" name="_captcha" value="false">
-
-                                                        <!-- <input type="hidden" name="_next" value="..."> Removed for simpler activation -->
-                                                        <!-- We'll handle success with JS, but _next is good backup -->
-
-                                                        <div class="form-group">
-                                                                <input type="text" id="name" name="name"
-                                                                        placeholder="Ваше ім'я" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <input type="tel" id="phone" name="phone"
-                                                                        placeholder="Ваш телефон" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <input type="email" id="email" name="email"
-                                                                        placeholder="Ваш Email (необов'язково)">
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <textarea id="message" name="message"
-                                                                        placeholder="Ваше повідомлення (необов'язково)"
-                                                                        rows="4"></textarea>
-                                                        </div>
-                                                        <button type="submit" class="cta-button">Відправити
-                                                                заявку</button>
-                                                </form>
-                                        </div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/IMG_20230501_151313.jpg" alt="Шафи">
                                 </div>
-                        </section>
-
-                        <footer>
-                                <p>&copy; 2025 Мій Веб-сайт. Всі права захищені.</p>
-                        </footer>
-
-                        <!-- Contact modal -->
-                        <div id="contactsModal" class="modal" aria-hidden="true" role="dialog"
-                                aria-labelledby="contactsTitle">
-                                <div class="modal-overlay" data-close="true"></div>
-                                <div class="modal-content" role="document">
-                                        <button class="modal-close" aria-label="Закрити">&times;</button>
-                                        <h2 id="contactsTitle">Контакти</h2>
-                                        <p>Телефон: <a href="tel:+380939261637">+38 093 926 16 37</a></p>
-                                        <p>Email: <a href="mailto:temnyj83@gmail.com">temnyj83@gmail.com</a></p>
-                                        <div class="social-links">
-                                                <a href="#" class="social-icon viber" aria-label="Viber"
-                                                        title="Viber"><i class="fa-brands fa-viber"></i></a>
-                                                <a href="#" class="social-icon telegram" aria-label="Telegram"
-                                                        title="Telegram"><i class="fa-brands fa-telegram"></i></a>
-                                                <a href="#" class="social-icon whatsapp" aria-label="WhatsApp"
-                                                        title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                                                <a href="#" class="social-icon instagram" aria-label="Instagram"
-                                                        title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                                                <a href="#" class="social-icon facebook" aria-label="Facebook"
-                                                        title="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                                                <a href="#" class="social-icon tiktok" aria-label="TikTok"
-                                                        title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                                        </div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/IMG_20231102_151158.jpg" alt="Шафи">
                                 </div>
-                        </div>
-
-                        <!-- Gallery Modal (Кухні) -->
-                        <div id="kukhniaGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Кухні</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid" id="galleryGrid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211106_224011.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211110_194907.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211110_194914.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211110_195133.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211110_195300.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_193825.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_193836.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_193949.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_193952.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194000.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194002.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194004.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194103.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194105.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194110.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194116.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20211207_194118.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220118_092545.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220212_170201.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220212_170217.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220212_170247.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220212_170305.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220212_170319.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20220212_170342.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20221112_112509.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20221112_112602.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20221112_112607.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20230823_161225.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG_20240424_154816.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG-2410d14d25cd728a85781cd9f13ee97e-V.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG-6b1cdc951a51009a9cc3e865adc3dde8-V.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG-7051a9c8eccbffa10f8bc73d516036a6-V.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/IMG-715fb6bc0f1c4cea51ed6a34723f2635-V.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_1_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_10_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_11_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_12_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_18_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_19_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2024-12-22_16-24-26.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2025-11-30_19-36-18.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2025-11-30_19-36-33.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2025-11-30_19-36-42.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2025-11-30_19-45-19.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_2025-12-01_10-20-09.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_3_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_32_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_4_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_5_2025-11-30_20-47-40.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_5_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_6_2025-11-30_20-47-40.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_6_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_7_2025-11-30_20-47-40.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_7_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_8_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_9_2025-12-01_10-18-20.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_90_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_91_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_93_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кухні/photo_94_2025-11-30_20-48-49.jpg"
-                                                                alt="Кухні"></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Кухні/video_2025-11-30_19-45-29.mp4"
-                                                                muted></video></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Кухні/video_2025-11-30_20-47-20%20(3).mp4"
-                                                                muted></video></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Кухні/video_2025-11-30_20-47-40%20(2).mp4"
-                                                                muted></video></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Кухні/video_2025-11-30_20-47-40.mp4"
-                                                                muted></video></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Кухні/video_2025-12-01_10-17-57.mp4"
-                                                                muted></video></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Кухні/video_2025-12-01_10-23-00.mp4"
-                                                                muted></video></div>
-                                        </div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/IMG_20231102_151228.jpg" alt="Шафи">
                                 </div>
-                        </div>
-                        </div>
-                        <!-- Gallery Modal (Shafy) -->
-                        <div id="shafyGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Шафи</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG_20220731_165713.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG_20220731_165739.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG_20230501_151313.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG_20231102_151158.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG_20231102_151228.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG_20231102_161528.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG-397985f7a919a1e6c8f56b5a99ad730c-V.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/IMG-a66c270f1881139f517bf367c8876f54-V.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_1_2025-11-30_20-47-40.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_14_2025-11-30_20-49-19.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_18_2025-11-30_20-49-06.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_27_2025-11-30_20-49-19.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_28_2025-11-30_20-49-19.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_3_2025-11-30_20-47-20.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_3_2025-11-30_20-49-06.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_31_2025-11-30_20-49-06.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_38_2025-11-30_20-48-49.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_4_2025-11-30_20-47-20.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_4_2025-11-30_20-49-06.jpg"
-                                                                alt="Шафи"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Шафи/photo_5_2025-11-30_20-49-06.jpg"
-                                                                alt="Шафи"></div>
-                                        </div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/IMG_20231102_161528.jpg" alt="Шафи">
                                 </div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Шафи/IMG-397985f7a919a1e6c8f56b5a99ad730c-V.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Шафи/IMG-a66c270f1881139f517bf367c8876f54-V.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_1_2025-11-30_20-47-40.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_14_2025-11-30_20-49-19.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_18_2025-11-30_20-49-06.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_27_2025-11-30_20-49-19.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_28_2025-11-30_20-49-19.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_3_2025-11-30_20-47-20.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_3_2025-11-30_20-49-06.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_31_2025-11-30_20-49-06.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_38_2025-11-30_20-48-49.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_4_2025-11-30_20-47-20.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_4_2025-11-30_20-49-06.jpg"
+                                                alt="Шафи"></div>
+                                <div class="thumb"><img src="images/My%20Work/Шафи/photo_5_2025-11-30_20-49-06.jpg"
+                                                alt="Шафи"></div>
                         </div>
-                        </div>
+                </div>
+        </div>
+        </div>
 
-                        <!-- Gallery Modal (Spalni) -->
-                        <div id="spalniGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Спальні</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/Gemini_Generated_Image_udieziudieziudie.png"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/IMG_20221112_122509.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_3_2025-11-30_20-47-20.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_42_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_43_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_5_2025-11-30_20-47-20.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_5_2025-11-30_20-49-06.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_68_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_69_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_70_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_8_2025-11-30_20-49-06.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_82_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_87_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Спальні/photo_88_2025-11-30_20-48-49.jpg"
-                                                                alt="Спальні"></div>
-                                        </div>
+        <!-- Gallery Modal (Spalni) -->
+        <div id="spalniGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Спальні</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Спальні/Gemini_Generated_Image_udieziudieziudie.png"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/IMG_20221112_122509.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_3_2025-11-30_20-47-20.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_42_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_43_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_5_2025-11-30_20-47-20.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_5_2025-11-30_20-49-06.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_68_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_69_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_70_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_8_2025-11-30_20-49-06.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_82_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_87_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                                <div class="thumb"><img src="images/My%20Work/Спальні/photo_88_2025-11-30_20-48-49.jpg"
+                                                alt="Спальні"></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+
+        <!-- Gallery Modal (Dytyachi) -->
+        <div id="dytyachiGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Дитячі</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_183802.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_183814.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_183821.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_183828.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_183917.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_183939.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/IMG_20200619_184024.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_12_2025-11-30_20-47-20.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_16_2025-11-30_20-49-06.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_17_2025-11-30_20-49-06.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_19_2025-11-30_20-49-06.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_32_2025-11-30_20-49-06.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_34_2025-11-30_20-49-06.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_35_2025-11-30_20-49-06.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_45_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_46_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_49_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_51_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_52_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_55_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_7_2025-11-30_20-47-20.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_8_2025-11-30_20-47-20.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_81_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                                <div class="thumb"><img src="images/My%20Work/Дитячі/photo_82_2025-11-30_20-48-49.jpg"
+                                                alt="Дитячі"></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+
+        <!-- Gallery Modal (Kabinety) -->
+        <div id="kabinetyGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Кабінети</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кабінети/73e7772081eb3c5a2daaff1780faeaa9.jpg"
+                                                alt="Кабінети"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кабінети/bc609c93633b79218f17dbcaaf027a58.jpg"
+                                                alt="Кабінети"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кабінети/Gemini_Generated_Image_udieziudieziudie.png"
+                                                alt="Кабінети"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кабінети/image.webp" alt="Кабінети"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кабінети/IMG_20230501_151315.jpg"
+                                                alt="Кабінети"></div>
+                                <div class="thumb"><img src="images/My%20Work/Кабінети/unnamed.jpg" alt="Кабінети">
+                                </div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Кабінети/зображення_viber_2022-09-22_14-41-34-540.jpg"
+                                                alt="Кабінети"></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+
+        <!-- Gallery Modal (Sanvuzly) -->
+        <div id="sanvuzlyGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Санвузли</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_1_2025-12-07_02-31-44.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_10_2025-11-30_20-49-19.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_16_2025-11-30_20-49-19.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_17_2025-11-30_20-48-49.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_17_2025-11-30_20-49-19.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_2_2025-12-07_02-31-44.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_20_2025-11-30_20-48-49.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_20_2025-11-30_20-49-06.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_22_2025-11-30_20-49-06.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_23_2025-11-30_20-49-06.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_26_2025-11-30_20-49-06.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_53_2025-11-30_20-49-06.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_54_2025-11-30_20-49-06.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_9_2025-11-30_20-49-19.jpg"
+                                                alt="Санвузли"></div>
+                                <div class="thumb"><img src="images/My%20Work/Санвузли/photo_96_2025-11-30_20-48-49.jpg"
+                                                alt="Санвузли"></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+
+        <!-- Gallery Modal (TV-zony) -->
+        <div id="tvzonyGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — ТВ-зони</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img src="images/My%20Work/ТВ-зони/IMG_20200618_224347.jpg"
+                                                alt="ТВ-зони"></div>
+                                <div class="thumb"><img src="images/My%20Work/ТВ-зони/IMG_20200619_135853.jpg"
+                                                alt="ТВ-зони"></div>
+                                <div class="thumb"><img src="images/My%20Work/ТВ-зони/photo_1_2025-11-30_20-47-20.jpg"
+                                                alt="ТВ-зони"></div>
+                                <div class="thumb"><img src="images/My%20Work/ТВ-зони/photo_2_2025-11-30_20-48-49.jpg"
+                                                alt="ТВ-зони"></div>
+                                <div class="thumb"><img src="images/My%20Work/ТВ-зони/photo_6_2025-11-30_20-48-49.jpg"
+                                                alt="ТВ-зони"></div>
+                                <div class="thumb"><img src="images/My%20Work/ТВ-зони/photo_7_2025-11-30_20-48-49.jpg"
+                                                alt="ТВ-зони"></div>
+                                <div class="thumb"><video
+                                                src="images/My%20Work/ТВ-зони/video_2025-11-30_20-47-20%20(2).mp4"
+                                                muted></video></div>
+                                <div class="thumb"><video
+                                                src="images/My%20Work/ТВ-зони/video_2025-11-30_20-47-20%20(4).mp4"
+                                                muted></video></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+
+        <!-- Gallery Modal (Peredpokoi) -->
+        <div id="peredpokoiGalleryModal" class="gallery-overlay">
+                <div class="gallery-container">
+                        <div class="gallery-header">
+                                <h2>Галерея — Передпокої</h2>
+                                <button class="gallery-close">×</button>
+                        </div>
+                        <div class="gallery-grid">
+                                <div class="thumb"><img src="images/My%20Work/Передпокої/photo_2022-09-22_15-22-06.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_24_2025-11-30_20-49-19.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_25_2025-11-30_20-49-19.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_28_2025-11-30_20-49-19.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_37_2025-11-30_20-48-49.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_57_2025-11-30_20-48-49.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_58_2025-11-30_20-48-49.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><img
+                                                src="images/My%20Work/Передпокої/photo_60_2025-11-30_20-48-49.jpg"
+                                                alt="Передпокої"></div>
+                                <div class="thumb"><video
+                                                src="images/My%20Work/Передпокої/video_2025-11-30_20-47-20.mp4"
+                                                muted></video></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+
+
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox">
+                <div class="close-light" id="closeLight">✕</div>
+                <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Попереднє фото">‹</button>
+                <div class="lightbox-content" id="lightboxContent"></div>
+                <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Наступне фото">›</button>
+        </div>
+
+        <!-- About Me / Manufacturers Modal -->
+        <div id="aboutMeModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="aboutMeTitle">
+                <div class="modal-overlay" data-close="true"></div>
+                <div class="modal-content manufacturer-modal-content" role="document">
+                        <button class="modal-close" aria-label="Закрити">&times;</button>
+                        <h2 id="aboutMeTitle">Виробники Фурнітури та Матеріалів</h2>
+                        <p class="modal-intro">Ми використовуємо лише якісну фурнітуру та матеріали від
+                                перевірених світових брендів, популярних в Україні.</p>
+
+                        <div class="manufacturer-grid">
+                                <!-- Blum -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Blum</div>
+                                        <p>Австрійська якість. Світовий лідер у виробництві підйомних
+                                                механізмів, петель та висувних систем.</p>
+                                        <a href="https://www.blum.com/ua/uk/" target="_blank" rel="noopener">Офіційний
+                                                сайт ↗</a>
+                                </div>
+
+                                <!-- Hettich -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Hettich</div>
+                                        <p>Німецька інженерія. Інноваційна фурнітура для меблів з
+                                                акцентом на функціональність та дизайн.</p>
+                                        <a href="https://web.hettich.com/uk-ua/holovna" target="_blank"
+                                                rel="noopener">Офіційний сайт ↗</a>
+                                </div>
+
+                                <!-- Hafele -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Häfele</div>
+                                        <p>Німецький бренд. Величезний асортимент меблевої фурнітури та
+                                                архітектурних рішень.</p>
+                                        <a href="https://www.hafele.ua/uk/" target="_blank" rel="noopener">Офіційний
+                                                сайт ↗</a>
+                                </div>
+
+                                <!-- GTV -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">GTV</div>
+                                        <p>Польський виробник. Сучасна фурнітура та освітлення за
+                                                оптимальним співвідношенням ціни та якості.</p>
+                                        <a href="https://www.gtv.com.pl/ua/" target="_blank" rel="noopener">Офіційний
+                                                сайт ↗</a>
+                                </div>
+
+                                <!-- Muller -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Müller</div>
+                                        <p>Надійні рішення для меблів. Петлі, направляючі та карго для
+                                                сучасної кухні.</p>
+                                        <a href="#" class="disabled-link">Каталог постачальників</a>
+                                </div>
+
+                                <!-- Egger -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Egger</div>
+                                        <p>Австрія. Еталон якості ДСП та стільниць. Екологічність та
+                                                неймовірні декори.</p>
+                                        <a href="https://www.egger.com/ua/" target="_blank" rel="noopener">Офіційний
+                                                сайт ↗</a>
+                                </div>
+
+                                <!-- Swiss Krono -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Swiss Krono</div>
+                                        <p>Швейцарські стандарти в Україні. Якісні плитні матеріали для
+                                                будь-яких інтер'єрних рішень.</p>
+                                        <a href="https://www.swisskrono.com/ua/" target="_blank"
+                                                rel="noopener">Офіційний сайт ↗</a>
+                                </div>
+
+                                <!-- Kronospan -->
+                                <div class="manufacturer-card">
+                                        <div class="brand-name">Kronospan</div>
+                                        <p>Світовий лідер. Широкий вибір декорів ДСП та стільниць для
+                                                створення затишку.</p>
+                                        <a href="https://ua.kronospan-express.com/" target="_blank"
+                                                rel="noopener">Офіційний сайт ↗</a>
                                 </div>
                         </div>
-                        </div>
+                </div>
+        </div>
 
-                        <!-- Gallery Modal (Dytyachi) -->
-                        <div id="dytyachiGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Дитячі</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_183802.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_183814.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_183821.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_183828.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_183917.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_183939.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/IMG_20200619_184024.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_12_2025-11-30_20-47-20.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_16_2025-11-30_20-49-06.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_17_2025-11-30_20-49-06.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_19_2025-11-30_20-49-06.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_32_2025-11-30_20-49-06.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_34_2025-11-30_20-49-06.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_35_2025-11-30_20-49-06.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_45_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_46_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_49_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_51_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_52_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_55_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_7_2025-11-30_20-47-20.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_8_2025-11-30_20-47-20.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_81_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Дитячі/photo_82_2025-11-30_20-48-49.jpg"
-                                                                alt="Дитячі"></div>
-                                        </div>
-                                </div>
-                        </div>
-                        </div>
-
-                        <!-- Gallery Modal (Kabinety) -->
-                        <div id="kabinetyGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Кабінети</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кабінети/73e7772081eb3c5a2daaff1780faeaa9.jpg"
-                                                                alt="Кабінети"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кабінети/bc609c93633b79218f17dbcaaf027a58.jpg"
-                                                                alt="Кабінети"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кабінети/Gemini_Generated_Image_udieziudieziudie.png"
-                                                                alt="Кабінети"></div>
-                                                <div class="thumb"><img src="images/My%20Work/Кабінети/image.webp"
-                                                                alt="Кабінети"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кабінети/IMG_20230501_151315.jpg"
-                                                                alt="Кабінети"></div>
-                                                <div class="thumb"><img src="images/My%20Work/Кабінети/unnamed.jpg"
-                                                                alt="Кабінети"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Кабінети/зображення_viber_2022-09-22_14-41-34-540.jpg"
-                                                                alt="Кабінети"></div>
-                                        </div>
-                                </div>
-                        </div>
-                        </div>
-
-                        <!-- Gallery Modal (Sanvuzly) -->
-                        <div id="sanvuzlyGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Санвузли</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_1_2025-12-07_02-31-44.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_10_2025-11-30_20-49-19.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_16_2025-11-30_20-49-19.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_17_2025-11-30_20-48-49.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_17_2025-11-30_20-49-19.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_2_2025-12-07_02-31-44.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_20_2025-11-30_20-48-49.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_20_2025-11-30_20-49-06.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_22_2025-11-30_20-49-06.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_23_2025-11-30_20-49-06.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_26_2025-11-30_20-49-06.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_53_2025-11-30_20-49-06.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_54_2025-11-30_20-49-06.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_9_2025-11-30_20-49-19.jpg"
-                                                                alt="Санвузли"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Санвузли/photo_96_2025-11-30_20-48-49.jpg"
-                                                                alt="Санвузли"></div>
-                                        </div>
-                                </div>
-                        </div>
-                        </div>
-
-                        <!-- Gallery Modal (TV-zony) -->
-                        <div id="tvzonyGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — ТВ-зони</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/ТВ-зони/IMG_20200618_224347.jpg"
-                                                                alt="ТВ-зони"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/ТВ-зони/IMG_20200619_135853.jpg"
-                                                                alt="ТВ-зони"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/ТВ-зони/photo_1_2025-11-30_20-47-20.jpg"
-                                                                alt="ТВ-зони"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/ТВ-зони/photo_2_2025-11-30_20-48-49.jpg"
-                                                                alt="ТВ-зони"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/ТВ-зони/photo_6_2025-11-30_20-48-49.jpg"
-                                                                alt="ТВ-зони"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/ТВ-зони/photo_7_2025-11-30_20-48-49.jpg"
-                                                                alt="ТВ-зони"></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/ТВ-зони/video_2025-11-30_20-47-20%20(2).mp4"
-                                                                muted></video></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/ТВ-зони/video_2025-11-30_20-47-20%20(4).mp4"
-                                                                muted></video></div>
-                                        </div>
-                                </div>
-                        </div>
-                        </div>
-
-                        <!-- Gallery Modal (Peredpokoi) -->
-                        <div id="peredpokoiGalleryModal" class="gallery-overlay">
-                                <div class="gallery-container">
-                                        <div class="gallery-header">
-                                                <h2>Галерея — Передпокої</h2>
-                                                <button class="gallery-close">×</button>
-                                        </div>
-                                        <div class="gallery-grid">
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_2022-09-22_15-22-06.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_24_2025-11-30_20-49-19.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_25_2025-11-30_20-49-19.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_28_2025-11-30_20-49-19.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_37_2025-11-30_20-48-49.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_57_2025-11-30_20-48-49.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_58_2025-11-30_20-48-49.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><img
-                                                                src="images/My%20Work/Передпокої/photo_60_2025-11-30_20-48-49.jpg"
-                                                                alt="Передпокої"></div>
-                                                <div class="thumb"><video
-                                                                src="images/My%20Work/Передпокої/video_2025-11-30_20-47-20.mp4"
-                                                                muted></video></div>
-                                        </div>
-                                </div>
-                        </div>
-                        </div>
-
-
-
-                        <!-- Lightbox -->
-                        <div class="lightbox" id="lightbox">
-                                <div class="close-light" id="closeLight">✕</div>
-                                <button class="lightbox-nav lightbox-prev" id="lightboxPrev"
-                                        aria-label="Попереднє фото">‹</button>
-                                <div class="lightbox-content" id="lightboxContent"></div>
-                                <button class="lightbox-nav lightbox-next" id="lightboxNext"
-                                        aria-label="Наступне фото">›</button>
-                        </div>
-
-                        <!-- About Me / Manufacturers Modal -->
-                        <div id="aboutMeModal" class="modal" aria-hidden="true" role="dialog"
-                                aria-labelledby="aboutMeTitle">
-                                <div class="modal-overlay" data-close="true"></div>
-                                <div class="modal-content manufacturer-modal-content" role="document">
-                                        <button class="modal-close" aria-label="Закрити">&times;</button>
-                                        <h2 id="aboutMeTitle">Виробники Фурнітури та Матеріалів</h2>
-                                        <p class="modal-intro">Ми використовуємо лише якісну фурнітуру та матеріали від
-                                                перевірених світових брендів, популярних в Україні.</p>
-
-                                        <div class="manufacturer-grid">
-                                                <!-- Blum -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Blum</div>
-                                                        <p>Австрійська якість. Світовий лідер у виробництві підйомних
-                                                                механізмів, петель та висувних систем.</p>
-                                                        <a href="https://www.blum.com/ua/uk/" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-
-                                                <!-- Hettich -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Hettich</div>
-                                                        <p>Німецька інженерія. Інноваційна фурнітура для меблів з
-                                                                акцентом на функціональність та дизайн.</p>
-                                                        <a href="https://web.hettich.com/uk-ua/holovna" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-
-                                                <!-- Hafele -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Häfele</div>
-                                                        <p>Німецький бренд. Величезний асортимент меблевої фурнітури та
-                                                                архітектурних рішень.</p>
-                                                        <a href="https://www.hafele.ua/uk/" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-
-                                                <!-- GTV -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">GTV</div>
-                                                        <p>Польський виробник. Сучасна фурнітура та освітлення за
-                                                                оптимальним співвідношенням ціни та якості.</p>
-                                                        <a href="https://www.gtv.com.pl/ua/" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-
-                                                <!-- Muller -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Müller</div>
-                                                        <p>Надійні рішення для меблів. Петлі, направляючі та карго для
-                                                                сучасної кухні.</p>
-                                                        <a href="#" class="disabled-link">Каталог постачальників</a>
-                                                </div>
-
-                                                <!-- Egger -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Egger</div>
-                                                        <p>Австрія. Еталон якості ДСП та стільниць. Екологічність та
-                                                                неймовірні декори.</p>
-                                                        <a href="https://www.egger.com/ua/" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-
-                                                <!-- Swiss Krono -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Swiss Krono</div>
-                                                        <p>Швейцарські стандарти в Україні. Якісні плитні матеріали для
-                                                                будь-яких інтер'єрних рішень.</p>
-                                                        <a href="https://www.swisskrono.com/ua/" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-
-                                                <!-- Kronospan -->
-                                                <div class="manufacturer-card">
-                                                        <div class="brand-name">Kronospan</div>
-                                                        <p>Світовий лідер. Широкий вибір декорів ДСП та стільниць для
-                                                                створення затишку.</p>
-                                                        <a href="https://ua.kronospan-express.com/" target="_blank"
-                                                                rel="noopener">Офіційний сайт ↗</a>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-
-                        <script src="js/script.js"></script>
+        <script src="js/router.js"></script>
+        <script src="js/script.js?v=3"></script>
 </body>
 
 </html>

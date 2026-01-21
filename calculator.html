@@ -33,6 +33,12 @@
             overflow-x: hidden;
         }
 
+        /* Adjust header for calculator page */
+        header {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
         body.calc-body::before {
             content: '';
             position: fixed;
@@ -508,6 +514,45 @@
 </head>
 
 <body class="calc-body">
+    <header>
+        <nav>
+            <button class="mobile-menu-toggle" aria-label="Відкрити меню" onclick="toggleMobileMenu(event)">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="about.html" id="aboutMeLink">Про мене</a></li>
+                <li><a href="calculator.html">Калькулятор</a></li>
+                <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li>
+                <li><a href="constructor-v2.html" target="_blank">Новий Конструктор (v2)</a></li>
+                <li><a href="services.html">Послуги</a></li>
+                <li>
+                    <a href="#" id="contactsBtn">Контакти</a>
+                    <div class="dropdown-menu">
+                        <div class="contact-info">
+                            <p>📞 <a href="tel:+380939261637">+38 093 926 16 37</a></p>
+                            <p>✉️ <a href="mailto:temnyj83@gmail.com">temnyj83@gmail.com</a>
+                            </p>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-icon viber" aria-label="Viber" title="Viber"><i
+                                    class="fa-brands fa-viber"></i></a>
+                            <a href="#" class="social-icon telegram" aria-label="Telegram" title="Telegram"><i
+                                    class="fa-brands fa-telegram"></i></a>
+                            <a href="#" class="social-icon whatsapp" aria-label="WhatsApp" title="WhatsApp"><i
+                                    class="fa-brands fa-whatsapp"></i></a>
+                            <a href="#" class="social-icon instagram" aria-label="Instagram" title="Instagram"><i
+                                    class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="social-icon facebook" aria-label="Facebook" title="Facebook"><i
+                                    class="fa-brands fa-facebook"></i></a>
+                            <a href="#" class="social-icon tiktok" aria-label="TikTok" title="TikTok"><i
+                                    class="fa-brands fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <div class="calc-container">
         <header class="calc-header">
             <h1>Калькулятор меблів</h1>
@@ -999,6 +1044,7 @@
             document.getElementById('w-total').innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
         }
     </script>
+    <script src="js/script.js?v=2"></script>
 </body>
 
 </html>
