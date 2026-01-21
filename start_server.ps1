@@ -24,7 +24,7 @@ Write-Host ""
 Write-Host "   $url" -ForegroundColor Green -BackgroundColor Black
 Write-Host ""
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host "Press Ctrl+C to stop the server." -ForegroundColor User
+Write-Host "Press Ctrl+C to stop the server." -ForegroundColor Yellow
 Write-Host ""
 
 # 2. Start Python Server

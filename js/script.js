@@ -709,6 +709,43 @@ window.initializeReviewsCarousel = function () {
 // Initialize on first load
 window.initializeReviewsCarousel();
 
+// Карусель виробників
+function setupManufacturerCarousel(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+    const cards = carousel.querySelectorAll('.manufacturer-card');
+    let activeIndex = 0;
+    function setActive(idx) {
+        cards.forEach((card, i) => {
+            card.classList.toggle('active', i === idx);
+        });
+    }
+    setActive(activeIndex);
+    // Автоматична зміна кожні 3 секунди
+    setInterval(() => {
+        activeIndex = (activeIndex + 1) % cards.length;
+        setActive(activeIndex);
+    }, 3000);
+    // Зміна при скролі
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', function () {
+        const scrollY = window.scrollY;
+        if (scrollY > lastScrollY + 40) {
+            activeIndex = (activeIndex + 1) % cards.length;
+            setActive(activeIndex);
+            lastScrollY = scrollY;
+        } else if (scrollY < lastScrollY - 40) {
+            activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+            setActive(activeIndex);
+            lastScrollY = scrollY;
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    setupManufacturerCarousel('furniture-carousel');
+    setupManufacturerCarousel('hardware-carousel');
+});
 
 // Приклад API запиту
 async function fetchData(url) {
@@ -720,4 +757,244 @@ async function fetchData(url) {
         console.error('Помилка при отриманні даних:', error);
     }
 }
+
+// --- Calculator Logic for SPA ---
+
+// Global variables for calculator state
+let currentKitchenShape = 'straight';
+
+// SVG Constants
+const svgDefs = `
+    <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF3B3B" />
+        </marker>
+    </defs>`;
+
+const shapeVisuals = {
+    'straight': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+        ${svgDefs}
+        <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+        <rect x="0" y="0" width="100" height="30" fill="#5865F2"/>
+        <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+        {island}
+    </svg>`,
+    'l-left': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+        ${svgDefs}
+        <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+        <rect x="0" y="0" width="100" height="20" fill="#5865F2"/>
+        <rect x="0" y="20" width="20" height="30" fill="#5865F2"/>
+        <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+        <line x1="105" y1="0" x2="115" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="105" y1="50" x2="115" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="110" y1="0" x2="110" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="115" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(90, 115, 25)">b</text>
+        {island}
+    </svg>`,
+    'l-right': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+        ${svgDefs}
+        <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+        <rect x="0" y="0" width="100" height="20" fill="#5865F2"/>
+        <rect x="80" y="20" width="20" height="30" fill="#5865F2"/>
+        <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+        <line x1="-5" y1="0" x2="-15" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="-5" y1="50" x2="-15" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="-10" y1="0" x2="-10" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="-15" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(-90, -15, 25)">b</text>
+        {island}
+    </svg>`,
+    'u-shape': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+        ${svgDefs}
+        <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+        <rect x="0" y="0" width="100" height="20" fill="#5865F2"/>
+        <rect x="0" y="20" width="20" height="30" fill="#5865F2"/>
+        <rect x="80" y="20" width="20" height="30" fill="#5865F2"/>
+        <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+        <line x1="-5" y1="0" x2="-15" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="-5" y1="50" x2="-15" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="-10" y1="0" x2="-10" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="-15" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(-90, -15, 25)">b</text>
+        <line x1="105" y1="0" x2="115" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="105" y1="50" x2="115" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+        <line x1="110" y1="0" x2="110" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="115" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(90, 115, 25)">c</text>
+        {island}
+    </svg>`
+};
+
+const islandSVG = `
+    <rect x="30" y="70" width="40" height="15" fill="#5865F2"/>
+    <line x1="30" y1="85" x2="30" y2="95" stroke="#FF3B3B" stroke-width="1.2"/>
+    <line x1="70" y1="85" x2="70" y2="95" stroke="#FF3B3B" stroke-width="1.2"/>
+    <line x1="30" y1="90" x2="70" y2="90" stroke="#FF3B3B" stroke-width="1.2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="50" y="88" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle" fill="#FF3B3B">o</text>`;
+
+// Global functions for calculator interactivity
+window.switchTab = function (tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.calc-section').forEach(sec => sec.classList.remove('active'));
+    // Find the button that called this
+    const btn = document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`);
+    if (btn) btn.classList.add('active');
+
+    const section = document.getElementById(tab + '-calc');
+    if (section) section.classList.add('active');
+};
+
+window.updateVisualization = function () {
+    const islandToggle = document.getElementById('island-toggle');
+    const visualPreview = document.getElementById('visual-preview');
+    if (!islandToggle || !visualPreview) return;
+
+    const hasIsland = islandToggle.checked;
+    let svgHtml = shapeVisuals[currentKitchenShape];
+    svgHtml = svgHtml.replace('{island}', hasIsland ? islandSVG : '');
+    visualPreview.innerHTML = svgHtml;
+};
+
+window.selectShape = function (shape) {
+    currentKitchenShape = shape;
+    const dimB = document.getElementById('dim-b-group');
+    const dimC = document.getElementById('dim-c-group');
+
+    if (dimB) dimB.style.display = (shape !== 'straight') ? 'flex' : 'none';
+    if (dimC) dimC.style.display = (shape === 'u-shape') ? 'flex' : 'none';
+
+    updateVisualization();
+    calculateKitchen();
+};
+
+window.toggleIsland = function () {
+    const islandToggle = document.getElementById('island-toggle');
+    const dimO = document.getElementById('dim-o-group');
+    if (!islandToggle || !dimO) return;
+
+    const isActive = islandToggle.checked;
+    dimO.style.display = isActive ? 'flex' : 'none';
+    updateVisualization();
+    calculateKitchen();
+};
+
+window.toggleCustomHeight = function (type) {
+    const customInput = document.getElementById(type + '-custom');
+    const customRadio = document.querySelector(`input[name="${type}-height"][value="custom"]`);
+    if (!customInput || !customRadio) return;
+
+    if (customRadio.checked) {
+        customInput.disabled = false;
+        customInput.focus();
+    } else {
+        customInput.disabled = true;
+    }
+    calculateKitchen();
+};
+
+window.calculateKitchen = function () {
+    const a = (parseFloat(document.getElementById('k-dim-a')?.value) || 0) * 1000;
+    const b = (parseFloat(document.getElementById('k-dim-b')?.value) || 0) * 1000;
+    const c = (parseFloat(document.getElementById('k-dim-c')?.value) || 0) * 1000;
+    const o = (parseFloat(document.getElementById('k-dim-o')?.value) || 0) * 1000;
+
+    const islandToggle = document.getElementById('island-toggle');
+    const hasIsland = islandToggle ? islandToggle.checked : false;
+
+    // Height logic
+    const lowerRadio = document.querySelector('input[name="lower-height"]:checked');
+    const upperRadio = document.querySelector('input[name="upper-height"]:checked');
+
+    let totalMM = 0;
+    switch (currentKitchenShape) {
+        case 'straight': totalMM = a; break;
+        case 'l-left':
+        case 'l-right': totalMM = a + b; break;
+        case 'u-shape': totalMM = a + b + c; break;
+    }
+
+    if (hasIsland) totalMM += o;
+
+    const length = totalMM / 1000;
+    const facade = parseFloat(document.getElementById('k-facade')?.value || 0);
+    const countertop = parseFloat(document.getElementById('k-countertop')?.value || 0);
+    const hardware = parseFloat(document.getElementById('k-hardware')?.value || 1);
+
+    const totalDisplay = document.getElementById('k-total');
+    if (!totalDisplay) return;
+
+    if (length === 0) {
+        totalDisplay.innerText = '0 ₴';
+        return;
+    }
+
+    let shapeFactor = 1.0;
+    if (currentKitchenShape.startsWith('l-')) shapeFactor = 1.1;
+    if (currentKitchenShape === 'u-shape') shapeFactor = 1.2;
+    let islandFactor = hasIsland ? 1.15 : 1.0;
+
+    let total = (facade + countertop) * length * hardware * shapeFactor * islandFactor;
+    totalDisplay.innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
+};
+
+window.updateWardrobeOptions = function () {
+    const category = document.getElementById('w-category').value;
+    const typeSelect = document.getElementById('w-type');
+
+    if (category === 'sliding') {
+        typeSelect.value = '10000';
+    }
+    calculateWardrobe();
+};
+
+window.calculateWardrobe = function () {
+    const widthMM = parseFloat(document.getElementById('w-width')?.value) || 0;
+    const heightMM = parseFloat(document.getElementById('w-height')?.value) || 0;
+
+    const width = widthMM / 1000;
+    const height = heightMM / 1000;
+
+    const type = parseFloat(document.getElementById('w-type')?.value || 0);
+    const filling = parseFloat(document.getElementById('w-filling')?.value || 1);
+    const category = document.getElementById('w-category')?.value || 'bedroom';
+
+    const totalDisplay = document.getElementById('w-total');
+    if (!totalDisplay) return;
+
+    if (width === 0 || height === 0) {
+        totalDisplay.innerText = '0 ₴';
+        return;
+    }
+
+    let categoryFactor = 1.0;
+    switch (category) {
+        case 'walk-in': categoryFactor = 1.3; break;
+        case 'children': categoryFactor = 1.1; break;
+        case 'hallway': categoryFactor = 0.95; break;
+        case 'office': categoryFactor = 1.05; break;
+        case 'sliding': categoryFactor = 1.15; break;
+    }
+
+    let area = width * height;
+    let total = area * type * filling * categoryFactor;
+    totalDisplay.innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
+};
+
+// Initialize function called by router
+window.initializeCalculator = function () {
+    console.log('Initializing Calculator...');
+    if (document.getElementById('visual-preview')) {
+        updateVisualization();
+    }
+};
+
 
