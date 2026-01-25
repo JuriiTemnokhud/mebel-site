@@ -212,3 +212,316 @@
         </div>
     </section>
 </div>
+
+<script>
+    let currentKitchenShape = 'straight';
+
+    // SVG Markers for dimension lines
+    const svgDefs = `
+        <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF3B3B" />
+            </marker>
+        </defs>`;
+
+    const shapeVisuals = {
+        'straight': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+            ${svgDefs}
+            <!-- Black Border Frame -->
+            <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+            
+            <!-- Kitchen Block (Full width, pinned to top) -->
+            <rect x="0" y="0" width="100" height="30" fill="#5865F2"/>
+            
+            <!-- Dimension 'a' (Above border) -->
+            <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+            
+            {island}
+        </svg>`,
+        'l-left': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+            ${svgDefs}
+            <!-- Black Border Frame -->
+            <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+            
+            <!-- Kitchen Blocks (Full width top, left leg) -->
+            <rect x="0" y="0" width="100" height="20" fill="#5865F2"/>
+            <rect x="0" y="20" width="20" height="30" fill="#5865F2"/>
+            
+            <!-- Dimension 'a' (Above border) -->
+            <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+            
+            <!-- Dimension 'b' (Right side) -->
+            <line x1="105" y1="0" x2="115" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="105" y1="50" x2="115" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="110" y1="0" x2="110" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="115" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(90, 115, 25)">b</text>
+            
+            {island}
+        </svg>`,
+        'l-right': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+            ${svgDefs}
+            <!-- Black Border Frame -->
+            <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+            
+            <!-- Kitchen Blocks (Full width top, right leg) -->
+            <rect x="0" y="0" width="100" height="20" fill="#5865F2"/>
+            <rect x="80" y="20" width="20" height="30" fill="#5865F2"/>
+            
+            <!-- Dimension 'a' (Above border) -->
+            <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+            
+            <!-- Dimension 'b' (Left side) -->
+            <line x1="-5" y1="0" x2="-15" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="-5" y1="50" x2="-15" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="-10" y1="0" x2="-10" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="-15" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(-90, -15, 25)">b</text>
+            
+            {island}
+        </svg>`,
+        'u-shape': `<svg viewBox="-20 -25 140 150" class="preview-svg" style="background: white;">
+            ${svgDefs}
+            <!-- Black Border Frame -->
+            <rect x="0" y="0" width="100" height="100" fill="none" stroke="#000" stroke-width="3"/>
+            
+            <!-- Kitchen Blocks (Full width top, both legs) -->
+            <rect x="0" y="0" width="100" height="20" fill="#5865F2"/>
+            <rect x="0" y="20" width="20" height="30" fill="#5865F2"/>
+            <rect x="80" y="20" width="20" height="30" fill="#5865F2"/>
+            
+            <!-- Dimension 'a' (Above border) -->
+            <line x1="0" y1="-5" x2="0" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="100" y1="-5" x2="100" y2="-15" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="0" y1="-10" x2="100" y2="-10" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="50" y="-12" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B">a</text>
+            
+            <!-- Dimension 'b' (Left side) -->
+            <line x1="-5" y1="0" x2="-15" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="-5" y1="50" x2="-15" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="-10" y1="0" x2="-10" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="-15" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(-90, -15, 25)">b</text>
+            
+            <!-- Dimension 'c' (Right side) -->
+            <line x1="105" y1="0" x2="115" y2="0" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="105" y1="50" x2="115" y2="50" stroke="#FF3B3B" stroke-width="1.5"/>
+            <line x1="110" y1="0" x2="110" y2="50" stroke="#FF3B3B" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+            <text x="115" y="25" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FF3B3B" transform="rotate(90, 115, 25)">c</text>
+            
+            {island}
+        </svg>`
+    };
+
+    const islandSVG = `
+        <!-- Island Block -->
+        <rect x="30" y="70" width="40" height="15" fill="#5865F2"/>
+        <!-- Dimension 'o' (Below island) -->
+        <line x1="30" y1="85" x2="30" y2="95" stroke="#FF3B3B" stroke-width="1.2"/>
+        <line x1="70" y1="85" x2="70" y2="95" stroke="#FF3B3B" stroke-width="1.2"/>
+        <line x1="30" y1="90" x2="70" y2="90" stroke="#FF3B3B" stroke-width="1.2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        <text x="50" y="88" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle" fill="#FF3B3B">o</text>`;
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.calc-section').forEach(sec => sec.classList.remove('active'));
+
+        event.currentTarget.classList.add('active');
+        document.getElementById(tab + '-calc').classList.add('active');
+    }
+
+    function updateVisualization() {
+        const hasIsland = document.getElementById('island-toggle').checked;
+        let svgHtml = shapeVisuals[currentKitchenShape];
+        svgHtml = svgHtml.replace('{island}', hasIsland ? islandSVG : '');
+        document.getElementById('visual-preview').innerHTML = svgHtml;
+    }
+
+    function selectShape(shape) {
+        currentKitchenShape = shape;
+
+        // Toggle dimension inputs
+        document.getElementById('dim-b-group').style.display = (shape !== 'straight') ? 'flex' : 'none';
+        document.getElementById('dim-c-group').style.display = (shape === 'u-shape') ? 'flex' : 'none';
+
+        updateVisualization();
+        calculateKitchen();
+    }
+
+    function toggleIsland() {
+        const isActive = document.getElementById('island-toggle').checked;
+        document.getElementById('dim-o-group').style.display = isActive ? 'flex' : 'none';
+        updateVisualization();
+        calculateKitchen();
+    }
+
+    function toggleCustomHeight(type) {
+        const customInput = document.getElementById(type + '-custom');
+        const customRadio = document.querySelector(`input[name="${type}-height"][value="custom"]`);
+
+        if (customRadio.checked) {
+            customInput.disabled = false;
+            customInput.focus();
+        } else {
+            customInput.disabled = true;
+        }
+        calculateKitchen();
+    }
+
+    function calculateKitchen() {
+        // Read dimensions in METERS and convert to MM
+        const a = (parseFloat(document.getElementById('k-dim-a').value) || 0) * 1000;
+        const b = (parseFloat(document.getElementById('k-dim-b').value) || 0) * 1000;
+        const c = (parseFloat(document.getElementById('k-dim-c').value) || 0) * 1000;
+        const o = (parseFloat(document.getElementById('k-dim-o').value) || 0) * 1000;
+        const hasIsland = document.getElementById('island-toggle').checked;
+
+        // Read height values
+        const lowerHeightRadio = document.querySelector('input[name="lower-height"]:checked');
+        const upperHeightRadio = document.querySelector('input[name="upper-height"]:checked');
+
+        const lowerHeight = lowerHeightRadio.value === 'custom'
+            ? (parseFloat(document.getElementById('lower-custom').value) || 900)
+            : parseFloat(lowerHeightRadio.value);
+
+        const upperHeight = upperHeightRadio.value === 'custom'
+            ? (parseFloat(document.getElementById('upper-custom').value) || 720)
+            : parseFloat(upperHeightRadio.value);
+
+        let totalMM = 0;
+        switch (currentKitchenShape) {
+            case 'straight': totalMM = a; break;
+            case 'l-left':
+            case 'l-right': totalMM = a + b; break;
+            case 'u-shape': totalMM = a + b + c; break;
+        }
+
+        if (hasIsland) totalMM += o;
+
+        const length = totalMM / 1000; // Convert to meters for calculation
+        const facade = parseFloat(document.getElementById('k-facade').value);
+        const countertop = parseFloat(document.getElementById('k-countertop').value);
+        const hardware = parseFloat(document.getElementById('k-hardware').value);
+
+        if (length === 0) {
+            document.getElementById('k-total').innerText = '0 ₴';
+            return;
+        }
+
+        // Calculation logic with shape complexity factor
+        let shapeFactor = 1.0;
+        if (currentKitchenShape.startsWith('l-')) shapeFactor = 1.1;
+        if (currentKitchenShape === 'u-shape') shapeFactor = 1.2;
+
+        // Island adds its own complexity (island finishes)
+        let islandFactor = hasIsland ? 1.15 : 1.0;
+
+        let total = (facade + countertop) * length * hardware * shapeFactor * islandFactor;
+
+        document.getElementById('k-total').innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
+    }
+
+    function updateWardrobeOptions() {
+        const category = document.getElementById('w-category').value;
+        const typeSelect = document.getElementById('w-type');
+
+        // Update door type options based on category
+        if (category === 'sliding') {
+            // Pre-select sliding door system for sliding wardrobes
+            typeSelect.value = '10000';
+        }
+
+        // Recalculate with new category
+        calculateWardrobe();
+    }
+
+    function calculateWardrobe() {
+        const widthMM = parseFloat(document.getElementById('w-width').value) || 0;
+        const heightMM = parseFloat(document.getElementById('w-height').value) || 0;
+
+        const width = widthMM / 1000;
+        const height = heightMM / 1000;
+
+        const type = parseFloat(document.getElementById('w-type').value);
+        const filling = parseFloat(document.getElementById('w-filling').value);
+        const category = document.getElementById('w-category')?.value || 'bedroom';
+
+        if (width === 0 || height === 0) {
+            document.getElementById('w-total').innerText = '0 ₴';
+            return;
+        }
+
+        // Category-based pricing factors
+        let categoryFactor = 1.0;
+        switch (category) {
+            case 'walk-in': categoryFactor = 1.3; break;  // More complex, comprehensive
+            case 'children': categoryFactor = 1.1; break;  // Safety features
+            case 'hallway': categoryFactor = 0.95; break;  // Simpler, compact
+            case 'office': categoryFactor = 1.05; break;   // Specialized shelving
+            case 'sliding': categoryFactor = 1.15; break;  // Sliding mechanism
+            case 'bedroom':
+            default: categoryFactor = 1.0; break;          // Standard
+        }
+
+        // Formula: Area (sq.m) * base price factor * filling multiplier * category factor
+        let area = width * height;
+        let total = area * type * filling * categoryFactor;
+
+        document.getElementById('w-total').innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
+    }
+
+    // Build a user-friendly message summary from the current calculator state
+    window.getCalculatorRequestMessage = function () {
+        // Kitchen tab
+        const kitchenSection = document.getElementById('kitchen-calc');
+        if (kitchenSection && kitchenSection.classList.contains('active')) {
+            const a = document.getElementById('k-dim-a').value || '';
+            const b = document.getElementById('k-dim-b').value || '';
+            const c = document.getElementById('k-dim-c').value || '';
+            const o = document.getElementById('k-dim-o').value || '';
+            const hasIsland = document.getElementById('island-toggle').checked ? 'Так' : 'Ні';
+            const lowerRadio = document.querySelector('input[name="lower-height"]:checked');
+            const upperRadio = document.querySelector('input[name="upper-height"]:checked');
+            const lower = (lowerRadio && lowerRadio.value === 'custom') ? (document.getElementById('lower-custom').value || '') : (lowerRadio ? lowerRadio.value : '');
+            const upper = (upperRadio && upperRadio.value === 'custom') ? (document.getElementById('upper-custom').value || '') : (upperRadio ? upperRadio.value : '');
+            const facade = document.getElementById('k-facade')?.selectedOptions[0]?.textContent || '';
+            const countertop = document.getElementById('k-countertop')?.selectedOptions[0]?.textContent || '';
+            const hardware = document.getElementById('k-hardware')?.selectedOptions[0]?.textContent || '';
+            const total = document.getElementById('k-total')?.innerText || '';
+
+            let dims = `a=${a} м`;
+            if (b) dims += `, b=${b} м`;
+            if (c) dims += `, c=${c} м`;
+            if (o) dims += `, о=${o} м`;
+
+            return `Бажаю замовити меблі. Тип: Кухня (${currentKitchenShape}). Розміри: ${dims}. Острів: ${hasIsland}. Висоти: нижні — ${lower} мм, верхні — ${upper} мм. Матеріали: фасад — ${facade}; стільниця — ${countertop}; фурнітура — ${hardware}. Орієнтовна ціна: ${total}. Додатково: `;
+        }
+
+        // Wardrobe tab
+        const wardrobeSection = document.getElementById('wardrobe-calc');
+        if (wardrobeSection && wardrobeSection.classList.contains('active')) {
+            const width = document.getElementById('w-width').value || '';
+            const height = document.getElementById('w-height').value || '';
+            const category = document.getElementById('w-category')?.selectedOptions[0]?.textContent || '';
+            const type = document.getElementById('w-type')?.selectedOptions[0]?.textContent || '';
+            const filling = document.getElementById('w-filling')?.selectedOptions[0]?.textContent || '';
+            const total = document.getElementById('w-total')?.innerText || '';
+
+            return `Бажаю замовити меблі. Тип: Шафа (${category}). Розміри: ширина=${width} мм, висота=${height} мм. Двері: ${type}. Наповнення: ${filling}. Орієнтовна ціна: ${total}. Додатково: `;
+        }
+
+        // Fallback
+        return 'Бажаю замовити меблі. Додатково: ';
+    };
+
+    // Initialize visualization when page loads
+    setTimeout(() => {
+        updateVisualization();
+    }, 100);
+</script>

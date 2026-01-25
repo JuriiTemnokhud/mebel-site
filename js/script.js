@@ -11,6 +11,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 4000); // Remove after 4 seconds (3.2s animation + 0.8s fade)
     }
 
+    // If the page loaded and a pending calculator message exists (full page navigation), populate it
+    setTimeout(() => {
+        try {
+            if (typeof window.handlePendingContactMessage === 'function') {
+                window.handlePendingContactMessage();
+            }
+        } catch (e) {
+            // ignore
+        }
+    }, 250);
+
     // Hamburger menu toggle logic
     // Hamburger menu toggle logic
     // Hamburger menu toggle logic
@@ -141,6 +152,137 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Order Modal logic (opens from calculator CTA)
+    let orderModal = document.getElementById('orderModal');
+    let orderModalClose = orderModal ? orderModal.querySelector('.modal-close') : null;
+    let orderModalOverlay = orderModal ? orderModal.querySelector('.modal-overlay') : null;
+    let orderForm = document.getElementById('orderForm');
+    let orderMessage = document.getElementById('order-message');
+
+    function ensureOrderModalExists() {
+        // If already present and wired, nothing to do
+        if (orderModal && orderMessage) return;
+
+        // Create modal markup and append to body
+        const tpl = `
+            <div id="orderModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="orderTitle">
+                <div class="modal-overlay" data-close="true"></div>
+                <div class="modal-content" role="document">
+                    <button class="modal-close" aria-label="Закрити">&times;</button>
+                    <h2 id="orderTitle">Бажаєте замовити меблі?</h2>
+                    <p class="modal-intro">Перевірте розміри та додайте коментар. Ми отримаємо ваше звернення.</p>
+
+                    <form id="orderForm" class="contact-form" action="https://formsubmit.co/temnyj83@gmail.com" method="POST">
+                        <input type="hidden" name="_subject" value="Нова заявка з калькулятора">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+
+                        <div class="form-group">
+                            <input type="text" id="order-name" name="name" placeholder="Ваше ім'я" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="order-phone" name="phone" placeholder="Ваш телефон" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="order-email" name="email" placeholder="Ваш Email (необов'язково)">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="order-message" name="message" placeholder="Ваше повідомлення (необов'язково)" rows="4"></textarea>
+                        </div>
+
+                        <div style="display:flex; gap:12px; align-items:center; justify-content:center; margin-top:1rem;">
+                            <button type="submit" class="cta-button">Відправити заявку</button>
+                            <button type="button" class="cta-button modal-close">Відмінити</button>
+                        </div>
+                    </form>
+                </div>
+            </div>`;
+
+        document.body.insertAdjacentHTML('beforeend', tpl);
+
+        // Re-query elements and attach listeners
+        orderModal = document.getElementById('orderModal');
+        orderModalClose = orderModal ? orderModal.querySelector('.modal-close') : null;
+        orderModalOverlay = orderModal ? orderModal.querySelector('.modal-overlay') : null;
+        orderForm = document.getElementById('orderForm');
+        orderMessage = document.getElementById('order-message');
+
+        if (orderModalClose) {
+            orderModal.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    closeOrderModal();
+                });
+            });
+        }
+
+        if (orderModalOverlay) {
+            orderModalOverlay.addEventListener('click', function (e) {
+                if (e.target === orderModalOverlay) {
+                    closeOrderModal();
+                }
+            });
+        }
+
+        if (orderForm) {
+            orderForm.addEventListener('submit', function (e) {
+                // Let form submit naturally; close modal shortly after
+                setTimeout(() => {
+                    closeOrderModal();
+                }, 700);
+            });
+        }
+    }
+
+    function openOrderModal() {
+        if (!orderModal) return;
+        orderModal.classList.add('open');
+        orderModal.setAttribute('aria-hidden', 'false');
+        const first = orderModal.querySelector('input[name="name"]');
+        if (first) first.focus();
+    }
+
+    function closeOrderModal() {
+        if (!orderModal) return;
+        orderModal.classList.remove('open');
+        orderModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Open order modal when a pending calculator message exists, or fill home message area if no modal
+    window.handlePendingContactMessage = function () {
+        const pending = sessionStorage.getItem('pendingContactMessage');
+        console.log('handlePendingContactMessage called, pending:', pending);
+        if (!pending) return;
+
+        // Ensure modal exists (create inline if missing)
+        ensureOrderModalExists();
+
+        // Prefer to open Order Modal if present
+        if (orderModal && orderMessage) {
+            orderMessage.value = pending;
+            openOrderModal();
+            console.log('Order modal opened with pending message.');
+            // remove session flag
+            sessionStorage.removeItem('pendingContactMessage');
+            return;
+        }
+
+        // Fallback: fill classic contact textarea on the home page
+        const textarea = document.getElementById('message');
+        const section = document.getElementById('contactFormSection');
+        if (textarea) {
+            textarea.value = pending;
+            textarea.focus();
+            console.log('Filled home contact textarea with pending message.');
+        }
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            section.classList && section.classList.add('highlight-contact');
+            setTimeout(() => section.classList && section.classList.remove('highlight-contact'), 2200);
+        }
+        sessionStorage.removeItem('pendingContactMessage');
+    };
+
     // Close modal on Escape key
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && contactsModal && contactsModal.classList.contains('open')) {
@@ -176,265 +318,273 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (e) { }
     }
 
+    // Global handler: when calculator CTA is clicked, build message, try to open inline modal,
+    // otherwise navigate to home (SPA) or allow normal navigation and populate after load
+    document.addEventListener('click', function (e) {
+        const anchor = e.target.closest('.cta-calc');
+        if (!anchor) return;
+
+        console.log('CTA clicked', { href: anchor.getAttribute('href'), hash: window.location.hash });
+
+        // Build message from calculator if available
+        let message = '';
+        if (typeof window.getCalculatorRequestMessage === 'function') {
+            try {
+                message = window.getCalculatorRequestMessage();
+            } catch (err) {
+                console.error('Error building calculator message:', err);
+            }
+        }
+
+        console.log('CTA message built:', message);
+
+        if (message) sessionStorage.setItem('pendingContactMessage', message);
+
+        // Try inline modal open first (useful if we're already on calculator page)
+        try {
+            ensureOrderModalExists();
+            if (orderModal && orderMessage && message) {
+                orderMessage.value = message;
+                openOrderModal();
+                sessionStorage.removeItem('pendingContactMessage');
+                console.log('Opened inline order modal with message.');
+                e.preventDefault();
+                return;
+            }
+        } catch (err) { console.error('Error trying to open inline modal:', err); }
+
+        // If SPA router exists and we are not on home, navigate there via router
+        const currentHash = window.location.hash.slice(1) || 'home';
+        if (window.router && currentHash !== 'home') {
+            e.preventDefault();
+            console.log('Navigating via router to home');
+            window.router.navigate('home');
+            return;
+        }
+
+        // Otherwise allow default navigation (full load), but ensure population after a short delay
+        console.log('Allowing default navigation (full page). Scheduling handlePendingContactMessage.');
+        setTimeout(() => {
+            if (typeof window.handlePendingContactMessage === 'function') {
+                console.log('Calling handlePendingContactMessage after navigation fallback');
+                window.handlePendingContactMessage();
+            }
+        }, 200);
+
+        // Initial setup for static elements
+        if (typeof window.initializeGalleries === 'function') {
+            window.initializeGalleries();
+        }
+        if (typeof window.initializeReviewsCarousel === 'function') {
+            window.initializeReviewsCarousel();
+        }
+    });
+
 });
 
 // Universal gallery system for all portfolio items
+// Event delegation approach is more reliable for SPA fragments
 (function () {
-    // Mapping portfolio items to their gallery modals
-    const galleryMappings = [
-        { itemId: 'kukhnia-item', modalId: 'kukhniaGalleryModal', gridId: null },
-        { itemId: 'shafy-item', modalId: 'shafyGalleryModal', gridId: null },
-        { itemId: 'spalni-item', modalId: 'spalniGalleryModal', gridId: null },
-        { itemId: 'dytyachi-item', modalId: 'dytyachiGalleryModal', gridId: null },
-        { itemId: 'kabinety-item', modalId: 'kabinetyGalleryModal', gridId: null },
-        { itemId: 'sanvuzly-item', modalId: 'sanvuzlyGalleryModal', gridId: null },
-        { itemId: 'tv-zony-item', modalId: 'tvzonyGalleryModal', gridId: null },
-        { itemId: 'peredpokoi-item', modalId: 'peredpokoiGalleryModal', gridId: null }
-    ];
+    const galleryMappings = {
+        'kukhnia-item': 'kukhniaGalleryModal',
+        'shafy-item': 'shafyGalleryModal',
+        'spalni-item': 'spalniGalleryModal',
+        'dytyachi-item': 'dytyachiGalleryModal',
+        'kabinety-item': 'kabinetyGalleryModal',
+        'sanvuzly-item': 'sanvuzlyGalleryModal',
+        'tv-zony-item': 'tvzonyGalleryModal',
+        'peredpokoi-item': 'peredpokoiGalleryModal'
+    };
 
-    // About Me modal logic
-    const aboutMeLink = document.getElementById('aboutMeLink');
-    const aboutMeModal = document.getElementById('aboutMeModal');
-    const aboutMeClose = aboutMeModal ? aboutMeModal.querySelector('.modal-close') : null;
+    // Global listener for portfolio item clicks
+    document.addEventListener('click', function (e) {
+        // Find if we clicked a portfolio item or its child
+        const portfolioItem = e.target.closest('.portfolio-item');
+        if (!portfolioItem) return;
 
-    function openAboutMeModal() {
-        if (!aboutMeModal) return;
-        aboutMeModal.classList.add('open');
-        aboutMeModal.setAttribute('aria-hidden', 'false');
-        if (aboutMeClose) aboutMeClose.focus();
-    }
+        // Skip if clicking an explicit link or button inside the item
+        if (e.target.closest('a') || e.target.closest('button')) return;
 
-    function closeAboutMeModal() {
-        if (!aboutMeModal) return;
-        aboutMeModal.classList.remove('open');
-        aboutMeModal.setAttribute('aria-hidden', 'true');
-    }
+        const modalId = galleryMappings[portfolioItem.id];
+        if (!modalId) return;
 
-    // aboutMeLink now opens about.html in a new tab naturally (no JS override)
-
-    if (aboutMeClose) {
-        aboutMeClose.addEventListener('click', function () {
-            closeAboutMeModal();
-        });
-    }
-
-    // close when clicking on overlay for About Me modal
-    aboutMeModal && aboutMeModal.addEventListener('click', function (e) {
-        if (e.target && e.target.matches('.modal-overlay')) {
-            closeAboutMeModal();
-        }
-    });
-
-    // close About Me modal on ESC
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' || e.key === 'Esc') {
-            if (aboutMeModal && aboutMeModal.classList.contains('open')) closeAboutMeModal();
-        }
-    });
-
-    // Ensure manufacturer links open in new tabs (not windows)
-    if (aboutMeModal) {
-        aboutMeModal.addEventListener('click', function (e) {
-            const link = e.target.closest('a[target="_blank"]');
-            if (link && link.href && !link.classList.contains('disabled-link')) {
-                e.preventDefault();
-                // Using noopener,noreferrer for security
-                window.open(link.href, '_blank', 'noopener,noreferrer');
-            }
-        });
-    }
-
-    // Setup each portfolio item with its gallery
-    galleryMappings.forEach(mapping => {
-        const portfolioItem = document.getElementById(mapping.itemId);
-        const galleryModal = document.getElementById(mapping.modalId);
-
-        if (!portfolioItem || !galleryModal) return;
-
-        portfolioItem.style.cursor = 'pointer';
-
-        // Open gallery on click
-        portfolioItem.addEventListener('click', function (e) {
-            if (e.target.closest('a') || e.target.closest('button')) return;
+        const galleryModal = document.getElementById(modalId);
+        if (galleryModal) {
+            console.log(`Gallery triggered for: ${portfolioItem.id}`);
             galleryModal.classList.add('open');
             document.body.style.overflow = 'hidden';
             history.pushState({ galleryOpen: true }, '', '#gallery');
-        });
-
-        // Close gallery function
-        function closeGallery() {
-            galleryModal.classList.remove('open');
-            document.body.style.overflow = '';
-            if (window.location.hash === '#gallery') {
-                history.back();
-            }
+        } else {
+            console.error(`Gallery modal not found: ${modalId}`);
         }
-
-        // Close button
-        const closeBtn = galleryModal.querySelector('.gallery-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeGallery);
-        }
-
-        // Close on overlay click
-        galleryModal.addEventListener('click', function (e) {
-            if (e.target === galleryModal) {
-                closeGallery();
-            }
-        });
-
-        // Close on ESC key
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && galleryModal.classList.contains('open')) {
-                const lightbox = document.getElementById('lightbox');
-                if (lightbox && lightbox.classList.contains('open')) return;
-                closeGallery();
-            }
-        });
-
-        // Handle browser back button
-        window.addEventListener('popstate', function (e) {
-            if (galleryModal.classList.contains('open')) {
-                galleryModal.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
     });
 
+    // Handle Closing
+    document.addEventListener('click', function (e) {
+        // Close button (Gallery or About Me)
+        if (e.target.closest('.gallery-close') || e.target.closest('.modal-close')) {
+            const openModal = e.target.closest('.gallery-overlay.open') || e.target.closest('.modal.open');
+            if (openModal) {
+                openModal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        }
+        // Overlay click
+        if ((e.target.classList.contains('gallery-overlay') || e.target.classList.contains('modal-overlay')) &&
+            (e.target.classList.contains('open') || e.target.parentNode.classList.contains('open'))) {
+            const modal = e.target.closest('.gallery-overlay.open') || e.target.closest('.modal.open');
+            if (modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        }
+    });
+
+    // Function for router compatibility - now just a diagnostic/ensure call
+    window.initializeGalleries = function () {
+        console.log('--- Gallery System Active (Delegated) ---');
+        // Items are handled automatically by the global listener
+    };
+})();
+
+// Global ESC listener (once)
+if (!window._escListenerBound) {
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+            const openGallery = document.querySelector('.gallery-overlay.open');
+            if (openGallery) {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox && lightbox.classList.contains('open')) return;
+                openGallery.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            const aboutMeModal = document.getElementById('aboutMeModal');
+            if (aboutMeModal && aboutMeModal.classList.contains('open')) {
+                aboutMeModal.classList.remove('open');
+                aboutMeModal.setAttribute('aria-hidden', 'true');
+            }
+        }
+    });
+    window._escListenerBound = true;
+}
+
+// Global popstate handler (once)
+if (!window._popstateListenerBound) {
+    window.addEventListener('popstate', function (e) {
+        const openGallery = document.querySelector('.gallery-overlay.open');
+        if (openGallery) {
+            openGallery.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+    window._popstateListenerBound = true;
+}
 
 
-    // Lightbox logic for ALL galleries with arrow navigation
+
+// Lightbox logic for ALL galleries with arrow navigation
+(function () {
     const lightbox = document.getElementById('lightbox');
     const lightboxContent = document.getElementById('lightboxContent');
     const closeLight = document.getElementById('closeLight');
     const prevBtn = document.getElementById('lightboxPrev');
     const nextBtn = document.getElementById('lightboxNext');
 
-    if (lightbox && lightboxContent) {
-        let currentIndex = 0;
-        let mediaItems = [];
-        let activeGrid = null;
+    if (!lightbox || !lightboxContent) return;
 
-        // Build array of all media items from a specific grid
-        function buildMediaArray(grid) {
-            activeGrid = grid;
-            mediaItems = Array.from(grid.querySelectorAll('.thumb')).map(thumb => {
-                const media = thumb.querySelector('img, video');
-                if (!media) return null;
-                const rawFull = (media.dataset && media.dataset.full) ? media.dataset.full : media.src;
-                return {
-                    type: media.tagName.toLowerCase(),
-                    src: rawFull
-                };
-            }).filter(Boolean);
-        }
+    let currentIndex = 0;
+    let mediaItems = [];
+    let activeGrid = null;
 
-        // Show media at specific index
-        function showMedia(index) {
-            if (index < 0 || index >= mediaItems.length) return;
-            currentIndex = index;
-            const item = mediaItems[index];
-
-            lightboxContent.innerHTML = '';
-
-            let mediaElement;
-            if (item.type === 'img') {
-                mediaElement = document.createElement('img');
-                mediaElement.src = item.src;
-            } else {
-                mediaElement = document.createElement('video');
-                mediaElement.src = item.src;
-                mediaElement.controls = true;
-                mediaElement.autoplay = true;
-            }
-
-            // Add fade-in animation
-            mediaElement.style.animation = 'lightboxFadeIn 0.5s ease-out';
-            lightboxContent.appendChild(mediaElement);
-
-            // Update button states
-            if (prevBtn) prevBtn.disabled = currentIndex === 0;
-            if (nextBtn) nextBtn.disabled = currentIndex === mediaItems.length - 1;
-        }
-
-        // Navigate to previous
-        function showPrev() {
-            if (currentIndex > 0) {
-                showMedia(currentIndex - 1);
-            }
-        }
-
-        // Navigate to next
-        function showNext() {
-            if (currentIndex < mediaItems.length - 1) {
-                showMedia(currentIndex + 1);
-            }
-        }
-
-        // Close lightbox
-        function closeLightbox() {
-            lightbox.classList.remove('open');
-            lightboxContent.innerHTML = '';
-        }
-
-        // Attach click handlers to ALL gallery grids
-        document.querySelectorAll('.gallery-grid').forEach(grid => {
-            grid.addEventListener('click', (ev) => {
-                const thumb = ev.target.closest('.thumb');
-                if (!thumb) return;
-
-                buildMediaArray(grid);
-
-                // Find index of clicked thumb
-                const thumbs = Array.from(grid.querySelectorAll('.thumb'));
-                const clickedIndex = thumbs.indexOf(thumb);
-
-                if (clickedIndex >= 0) {
-                    showMedia(clickedIndex);
-                    lightbox.classList.add('open');
-                }
-            });
-        });
-
-        // Arrow button clicks
-        if (prevBtn) {
-            prevBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showPrev();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showNext();
-            });
-        }
-
-        if (closeLight) {
-            closeLight.addEventListener('click', closeLightbox);
-        }
-
-        lightbox.addEventListener('click', (ev) => {
-            if (ev.target === lightbox) {
-                closeLightbox();
-            }
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (ev) => {
-            if (!lightbox.classList.contains('open')) return;
-
-            if (ev.key === 'Escape') {
-                closeLightbox();
-            } else if (ev.key === 'ArrowLeft') {
-                showPrev();
-            } else if (ev.key === 'ArrowRight') {
-                showNext();
-            }
-        });
+    // Build array of all media items from a specific grid
+    function buildMediaArray(grid) {
+        activeGrid = grid;
+        mediaItems = Array.from(grid.querySelectorAll('.thumb')).map(thumb => {
+            const media = thumb.querySelector('img, video');
+            if (!media) return null;
+            const rawFull = (media.dataset && media.dataset.full) ? media.dataset.full : media.src;
+            return {
+                type: media.tagName.toLowerCase(),
+                src: rawFull
+            };
+        }).filter(Boolean);
     }
+
+    // Show media at specific index
+    function showMedia(index) {
+        if (index < 0 || index >= mediaItems.length) return;
+        currentIndex = index;
+        const item = mediaItems[index];
+
+        lightboxContent.innerHTML = '';
+
+        let mediaElement;
+        if (item.type === 'img') {
+            mediaElement = document.createElement('img');
+            mediaElement.src = item.src;
+        } else {
+            mediaElement = document.createElement('video');
+            mediaElement.src = item.src;
+            mediaElement.controls = true;
+            mediaElement.autoplay = true;
+        }
+
+        // Add fade-in animation
+        mediaElement.style.animation = 'lightboxFadeIn 0.5s ease-out';
+        lightboxContent.appendChild(mediaElement);
+
+        // Update button states
+        if (prevBtn) prevBtn.disabled = currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentIndex === mediaItems.length - 1;
+    }
+
+    function showPrev() { if (currentIndex > 0) showMedia(currentIndex - 1); }
+    function showNext() { if (currentIndex < mediaItems.length - 1) showMedia(currentIndex + 1); }
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightboxContent.innerHTML = '';
+    }
+
+    // Global listener for thumbnail clicks (Delegation)
+    document.addEventListener('click', function (e) {
+        const thumb = e.target.closest('.thumb');
+        if (!thumb) return;
+        const grid = thumb.closest('.gallery-grid');
+        if (!grid) return;
+
+        buildMediaArray(grid);
+        const thumbs = Array.from(grid.querySelectorAll('.thumb'));
+        const clickedIndex = thumbs.indexOf(thumb);
+
+        if (clickedIndex >= 0) {
+            showMedia(clickedIndex);
+            lightbox.classList.add('open');
+        }
+    });
+
+    // Arrow button clicks
+    prevBtn && prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    nextBtn && nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+    closeLight && closeLight.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (ev) => {
+        if (ev.target === lightbox) closeLightbox();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (ev) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (ev.key === 'Escape') closeLightbox();
+        else if (ev.key === 'ArrowLeft') showPrev();
+        else if (ev.key === 'ArrowRight') showNext();
+    });
 })();
+
+// Immediately initialize if not in SPA transition
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    window.initializeGalleries();
+}
 // Contact Form Handling - Standard HTML Submission (AJAX removed for reliability/activation)
 // The form in index.html will handle the POST request directly.
 
@@ -504,6 +654,8 @@ if (addReviewBtn && reviewModal) {
             reviewModal.classList.remove('open');
         }
     });
+
+
 }
 
 // Star Rating Logic
@@ -745,6 +897,30 @@ function setupManufacturerCarousel(carouselId) {
 document.addEventListener('DOMContentLoaded', function () {
     setupManufacturerCarousel('furniture-carousel');
     setupManufacturerCarousel('hardware-carousel');
+
+    // Expose page-specific initializers for SPA router
+    window.initializeCalculator = function () {
+        const calcHeader = document.querySelector('header.calc-header');
+        if (!calcHeader || calcHeader.dataset.scrollInit === 'true') return;
+        calcHeader.dataset.scrollInit = 'true';
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const y = window.scrollY || window.pageYOffset;
+                    if (y > 20) calcHeader.classList.add('hidden-by-scroll');
+                    else calcHeader.classList.remove('hidden-by-scroll');
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    };
+
+    // If calculator page loaded directly (not via SPA), initialize immediately
+    if (document.body.classList.contains('calc-body')) {
+        if (window.initializeCalculator) window.initializeCalculator();
+    }
 });
 
 // Приклад API запиту

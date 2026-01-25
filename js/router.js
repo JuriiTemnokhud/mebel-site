@@ -38,7 +38,42 @@
             const html = await response.text();
 
             if (contentContainer) {
-                contentContainer.innerHTML = html;
+                // Wrap loaded HTML in container with glass effect so "підложки" (backdrops) apply consistently
+                contentContainer.innerHTML = `<div class="container content">${html}</div>`;
+
+                // Execute any inline scripts included in the loaded fragment so page behaviors initialize
+                const scripts = contentContainer.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    if (oldScript.src) {
+                        // External script
+                        newScript.src = oldScript.src;
+                        newScript.async = false;
+                    } else {
+                        // Inline script
+                        newScript.textContent = oldScript.textContent;
+                    }
+                    document.head.appendChild(newScript);
+                    // remove the old script node from the fragment to avoid duplicates
+                    oldScript.parentNode && oldScript.parentNode.removeChild(oldScript);
+                });
+
+                // If page provides an immediate init function (e.g., updateVisualization for calculator), call it
+                try {
+                    if (typeof window.updateVisualization === 'function') {
+                        window.updateVisualization();
+                    }
+                } catch (e) {
+                    console.error('Error calling updateVisualization:', e);
+                }
+
+                try {
+                    if (typeof window.initializeCalculator === 'function') {
+                        window.initializeCalculator();
+                    }
+                } catch (e) {
+                    console.error('Error calling initializeCalculator:', e);
+                }
 
                 // Scroll to top
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -74,6 +109,14 @@
                 // Re-initialize reviews carousel
                 if (window.initializeReviewsCarousel) {
                     window.initializeReviewsCarousel();
+                }
+                // If a pending contact message exists (from calculator), populate the contact form
+                try {
+                    if (typeof window.handlePendingContactMessage === 'function') {
+                        window.handlePendingContactMessage();
+                    }
+                } catch (e) {
+                    console.error('Error handling pending contact message:', e);
                 }
                 break;
             case 'calculator':

@@ -30,8 +30,8 @@
                                 <li><a href="#home" data-route="home">Головна</a></li>
                                 <li><a href="#about" data-route="about" id="aboutMeLink">Про мене</a></li>
                                 <li><a href="#calculator" data-route="calculator">Калькулятор</a></li>
-                                <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li>
-                                <li><a href="constructor-v2.html" target="_blank">Новий Конструктор (v2)</a></li>
+                                <!-- <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li> -->
+                                <li><a href="constructor-v2.html" target="_blank">Конструктор</a></li>
                                 <li><a href="#services" data-route="services">Послуги</a></li>
                                 <li>
                                         <a href="#" id="contactsBtn">Контакти</a>
@@ -96,6 +96,45 @@
                                 <a href="#" class="social-icon tiktok" aria-label="TikTok" title="TikTok"><i
                                                 class="fa-brands fa-tiktok"></i></a>
                         </div>
+                </div>
+        </div>
+
+        <!-- Order modal (prefilled from calculator) -->
+        <div id="orderModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="orderTitle">
+                <div class="modal-overlay" data-close="true"></div>
+                <div class="modal-content" role="document">
+                        <button class="modal-close" aria-label="Закрити">&times;</button>
+                        <h2 id="orderTitle">Бажаєте замовити меблі?</h2>
+                        <p class="modal-intro">Перевірте розміри та додайте коментар. Ми отримаємо ваше звернення.</p>
+
+                        <form id="orderForm" class="contact-form" action="https://formsubmit.co/temnyj83@gmail.com"
+                                method="POST">
+                                <input type="hidden" name="_subject" value="Нова заявка з калькулятора">
+                                <input type="hidden" name="_template" value="table">
+                                <input type="hidden" name="_captcha" value="false">
+
+                                <div class="form-group">
+                                        <input type="text" id="order-name" name="name" placeholder="Ваше ім'я" required>
+                                </div>
+                                <div class="form-group">
+                                        <input type="tel" id="order-phone" name="phone" placeholder="Ваш телефон"
+                                                required>
+                                </div>
+                                <div class="form-group">
+                                        <input type="email" id="order-email" name="email"
+                                                placeholder="Ваш Email (необов'язково)">
+                                </div>
+                                <div class="form-group">
+                                        <textarea id="order-message" name="message"
+                                                placeholder="Ваше повідомлення (необов'язково)" rows="4"></textarea>
+                                </div>
+
+                                <div
+                                        style="display:flex; gap:12px; align-items:center; justify-content:center; margin-top:1rem;">
+                                        <button type="submit" class="cta-button">Відправити заявку</button>
+                                        <button type="button" class="cta-button modal-close">Відмінити</button>
+                                </div>
+                        </form>
                 </div>
         </div>
 
@@ -250,7 +289,6 @@
                         </div>
                 </div>
         </div>
-        </div>
         <!-- Gallery Modal (Shafy) -->
         <div id="shafyGalleryModal" class="gallery-overlay">
                 <div class="gallery-container">
@@ -304,7 +342,6 @@
                         </div>
                 </div>
         </div>
-        </div>
 
         <!-- Gallery Modal (Spalni) -->
         <div id="spalniGalleryModal" class="gallery-overlay">
@@ -345,7 +382,6 @@
                                                 alt="Спальні"></div>
                         </div>
                 </div>
-        </div>
         </div>
 
         <!-- Gallery Modal (Dytyachi) -->
@@ -407,7 +443,6 @@
                         </div>
                 </div>
         </div>
-        </div>
 
         <!-- Gallery Modal (Kabinety) -->
         <div id="kabinetyGalleryModal" class="gallery-overlay">
@@ -436,7 +471,6 @@
                                                 alt="Кабінети"></div>
                         </div>
                 </div>
-        </div>
         </div>
 
         <!-- Gallery Modal (Sanvuzly) -->
@@ -480,7 +514,6 @@
                         </div>
                 </div>
         </div>
-        </div>
 
         <!-- Gallery Modal (TV-zony) -->
         <div id="tvzonyGalleryModal" class="gallery-overlay">
@@ -510,7 +543,6 @@
                                                 muted></video></div>
                         </div>
                 </div>
-        </div>
         </div>
 
         <!-- Gallery Modal (Peredpokoi) -->
@@ -549,105 +581,109 @@
                                                 muted></video></div>
                         </div>
                 </div>
-        </div>
-        </div>
 
 
 
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox">
-                <div class="close-light" id="closeLight">✕</div>
-                <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Попереднє фото">‹</button>
-                <div class="lightbox-content" id="lightboxContent"></div>
-                <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Наступне фото">›</button>
-        </div>
+                <!-- Lightbox -->
+                <div class="lightbox" id="lightbox">
+                        <div class="close-light" id="closeLight">✕</div>
+                        <button class="lightbox-nav lightbox-prev" id="lightboxPrev"
+                                aria-label="Попереднє фото">‹</button>
+                        <div class="lightbox-content" id="lightboxContent"></div>
+                        <button class="lightbox-nav lightbox-next" id="lightboxNext"
+                                aria-label="Наступне фото">›</button>
+                </div>
 
-        <!-- About Me / Manufacturers Modal -->
-        <div id="aboutMeModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="aboutMeTitle">
-                <div class="modal-overlay" data-close="true"></div>
-                <div class="modal-content manufacturer-modal-content" role="document">
-                        <button class="modal-close" aria-label="Закрити">&times;</button>
-                        <h2 id="aboutMeTitle">Виробники Фурнітури та Матеріалів</h2>
-                        <p class="modal-intro">Ми використовуємо лише якісну фурнітуру та матеріали від
-                                перевірених світових брендів, популярних в Україні.</p>
+                <!-- About Me / Manufacturers Modal -->
+                <div id="aboutMeModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="aboutMeTitle">
+                        <div class="modal-overlay" data-close="true"></div>
+                        <div class="modal-content manufacturer-modal-content" role="document">
+                                <button class="modal-close" aria-label="Закрити">&times;</button>
+                                <h2 id="aboutMeTitle">Виробники Фурнітури та Матеріалів</h2>
+                                <p class="modal-intro">Ми використовуємо лише якісну фурнітуру та матеріали від
+                                        перевірених світових брендів, популярних в Україні.</p>
 
-                        <div class="manufacturer-grid">
-                                <!-- Blum -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Blum</div>
-                                        <p>Австрійська якість. Світовий лідер у виробництві підйомних
-                                                механізмів, петель та висувних систем.</p>
-                                        <a href="https://www.blum.com/ua/uk/" target="_blank" rel="noopener">Офіційний
-                                                сайт ↗</a>
-                                </div>
+                                <div class="manufacturer-grid">
+                                        <!-- Blum -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Blum</div>
+                                                <p>Австрійська якість. Світовий лідер у виробництві підйомних
+                                                        механізмів, петель та висувних систем.</p>
+                                                <a href="https://www.blum.com/ua/uk/" target="_blank"
+                                                        rel="noopener">Офіційний
+                                                        сайт ↗</a>
+                                        </div>
 
-                                <!-- Hettich -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Hettich</div>
-                                        <p>Німецька інженерія. Інноваційна фурнітура для меблів з
-                                                акцентом на функціональність та дизайн.</p>
-                                        <a href="https://web.hettich.com/uk-ua/holovna" target="_blank"
-                                                rel="noopener">Офіційний сайт ↗</a>
-                                </div>
+                                        <!-- Hettich -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Hettich</div>
+                                                <p>Німецька інженерія. Інноваційна фурнітура для меблів з
+                                                        акцентом на функціональність та дизайн.</p>
+                                                <a href="https://web.hettich.com/uk-ua/holovna" target="_blank"
+                                                        rel="noopener">Офіційний сайт ↗</a>
+                                        </div>
 
-                                <!-- Hafele -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Häfele</div>
-                                        <p>Німецький бренд. Величезний асортимент меблевої фурнітури та
-                                                архітектурних рішень.</p>
-                                        <a href="https://www.hafele.ua/uk/" target="_blank" rel="noopener">Офіційний
-                                                сайт ↗</a>
-                                </div>
+                                        <!-- Hafele -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Häfele</div>
+                                                <p>Німецький бренд. Величезний асортимент меблевої фурнітури та
+                                                        архітектурних рішень.</p>
+                                                <a href="https://www.hafele.ua/uk/" target="_blank"
+                                                        rel="noopener">Офіційний
+                                                        сайт ↗</a>
+                                        </div>
 
-                                <!-- GTV -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">GTV</div>
-                                        <p>Польський виробник. Сучасна фурнітура та освітлення за
-                                                оптимальним співвідношенням ціни та якості.</p>
-                                        <a href="https://www.gtv.com.pl/ua/" target="_blank" rel="noopener">Офіційний
-                                                сайт ↗</a>
-                                </div>
+                                        <!-- GTV -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">GTV</div>
+                                                <p>Польський виробник. Сучасна фурнітура та освітлення за
+                                                        оптимальним співвідношенням ціни та якості.</p>
+                                                <a href="https://www.gtv.com.pl/ua/" target="_blank"
+                                                        rel="noopener">Офіційний
+                                                        сайт ↗</a>
+                                        </div>
 
-                                <!-- Muller -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Müller</div>
-                                        <p>Надійні рішення для меблів. Петлі, направляючі та карго для
-                                                сучасної кухні.</p>
-                                        <a href="#" class="disabled-link">Каталог постачальників</a>
-                                </div>
+                                        <!-- Muller -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Müller</div>
+                                                <p>Надійні рішення для меблів. Петлі, направляючі та карго для
+                                                        сучасної кухні.</p>
+                                                <a href="#" class="disabled-link">Каталог постачальників</a>
+                                        </div>
 
-                                <!-- Egger -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Egger</div>
-                                        <p>Австрія. Еталон якості ДСП та стільниць. Екологічність та
-                                                неймовірні декори.</p>
-                                        <a href="https://www.egger.com/ua/" target="_blank" rel="noopener">Офіційний
-                                                сайт ↗</a>
-                                </div>
+                                        <!-- Egger -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Egger</div>
+                                                <p>Австрія. Еталон якості ДСП та стільниць. Екологічність та
+                                                        неймовірні декори.</p>
+                                                <a href="https://www.egger.com/ua/" target="_blank"
+                                                        rel="noopener">Офіційний
+                                                        сайт ↗</a>
+                                        </div>
 
-                                <!-- Swiss Krono -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Swiss Krono</div>
-                                        <p>Швейцарські стандарти в Україні. Якісні плитні матеріали для
-                                                будь-яких інтер'єрних рішень.</p>
-                                        <a href="https://www.swisskrono.com/ua/" target="_blank"
-                                                rel="noopener">Офіційний сайт ↗</a>
-                                </div>
+                                        <!-- Swiss Krono -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Swiss Krono</div>
+                                                <p>Швейцарські стандарти в Україні. Якісні плитні матеріали для
+                                                        будь-яких інтер'єрних рішень.</p>
+                                                <a href="https://www.swisskrono.com/ua/" target="_blank"
+                                                        rel="noopener">Офіційний сайт ↗</a>
+                                        </div>
 
-                                <!-- Kronospan -->
-                                <div class="manufacturer-card">
-                                        <div class="brand-name">Kronospan</div>
-                                        <p>Світовий лідер. Широкий вибір декорів ДСП та стільниць для
-                                                створення затишку.</p>
-                                        <a href="https://ua.kronospan-express.com/" target="_blank"
-                                                rel="noopener">Офіційний сайт ↗</a>
+                                        <!-- Kronospan -->
+                                        <div class="manufacturer-card">
+                                                <div class="brand-name">Kronospan</div>
+                                                <p>Світовий лідер. Широкий вибір декорів ДСП та стільниць для
+                                                        створення затишку.</p>
+                                                <a href="https://ua.kronospan-express.com/" target="_blank"
+                                                        rel="noopener">Офіційний сайт ↗</a>
+                                        </div>
                                 </div>
                         </div>
                 </div>
-        </div>
 
-        <script src="js/router.js"></script>
-        <script src="js/script.js?v=3"></script>
+                <script src="js/router.js"></script>
+                <script src="js/script.js?v=3"></script>
 </body>
 
 </html>

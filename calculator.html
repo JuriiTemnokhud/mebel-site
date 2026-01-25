@@ -96,8 +96,20 @@
         }
 
         .calc-header {
+            /* Ensure calculator header scrolls with the page (not sticky) */
+            position: static;
+            top: auto;
             text-align: center;
             margin-bottom: 3rem;
+            transition: transform 0.28s ease, opacity 0.28s ease;
+            will-change: transform, opacity;
+        }
+
+        /* Hidden state applied on scroll */
+        .calc-header.hidden-by-scroll {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         .calc-header h1 {
@@ -523,8 +535,8 @@
                 <li><a href="index.html">Головна</a></li>
                 <li><a href="about.html" id="aboutMeLink">Про мене</a></li>
                 <li><a href="calculator.html">Калькулятор</a></li>
-                <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li>
-                <li><a href="constructor-v2.html" target="_blank">Новий Конструктор (v2)</a></li>
+                <!-- <li><a href="constructor.html" target="_blank">Конструктор (v1)</a></li> -->
+                <li><a href="constructor-v2.html" target="_blank">Конструктор</a></li>
                 <li><a href="services.html">Послуги</a></li>
                 <li>
                     <a href="#" id="contactsBtn">Контакти</a>
@@ -983,9 +995,32 @@
             document.getElementById('k-total').innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
         }
 
-        // Initialize visualization
+        // Initialize visualization and add scroll hide for header
         document.addEventListener('DOMContentLoaded', () => {
             updateVisualization();
+
+            // Hide calc header when scrolling down (show when near top)
+            if (document.body.classList.contains('calc-body')) {
+                const calcHeader = document.querySelector('.calc-header');
+                if (calcHeader) {
+                    let ticking = false;
+                    window.addEventListener('scroll', () => {
+                        if (!ticking) {
+                            window.requestAnimationFrame(() => {
+                                const y = window.scrollY || window.pageYOffset;
+                                // hide when scrolled more than 20px
+                                if (y > 20) {
+                                    calcHeader.classList.add('hidden-by-scroll');
+                                } else {
+                                    calcHeader.classList.remove('hidden-by-scroll');
+                                }
+                                ticking = false;
+                            });
+                            ticking = true;
+                        }
+                    }, { passive: true });
+                }
+            }
         });
 
         function updateWardrobeOptions() {
@@ -1043,6 +1078,51 @@
 
             document.getElementById('w-total').innerText = Math.round(total).toLocaleString('uk-UA') + ' ₴';
         }
+
+        // Build a user-friendly message summary from the current calculator state
+        window.getCalculatorRequestMessage = function () {
+            // Kitchen tab
+            const kitchenSection = document.getElementById('kitchen-calc');
+            if (kitchenSection && kitchenSection.classList.contains('active')) {
+                const a = document.getElementById('k-dim-a').value || '';
+                const b = document.getElementById('k-dim-b').value || '';
+                const c = document.getElementById('k-dim-c').value || '';
+                const o = document.getElementById('k-dim-o').value || '';
+                const hasIsland = document.getElementById('island-toggle').checked ? 'Так' : 'Ні';
+                const lowerRadio = document.querySelector('input[name="lower-height"]:checked');
+                const upperRadio = document.querySelector('input[name="upper-height"]:checked');
+                const lower = (lowerRadio && lowerRadio.value === 'custom') ? (document.getElementById('lower-custom').value || '') : (lowerRadio ? lowerRadio.value : '');
+                const upper = (upperRadio && upperRadio.value === 'custom') ? (document.getElementById('upper-custom').value || '') : (upperRadio ? upperRadio.value : '');
+                const facade = document.getElementById('k-facade')?.selectedOptions[0]?.textContent || '';
+                const countertop = document.getElementById('k-countertop')?.selectedOptions[0]?.textContent || '';
+                const hardware = document.getElementById('k-hardware')?.selectedOptions[0]?.textContent || '';
+                const total = document.getElementById('k-total')?.innerText || '';
+
+                let dims = `a=${a} м`;
+                if (b) dims += `, b=${b} м`;
+                if (c) dims += `, c=${c} м`;
+                if (o) dims += `, о=${o} м`;
+
+                return `Бажаю замовити меблі. Тип: Кухня (${currentKitchenShape}). Розміри: ${dims}. Острів: ${hasIsland}. Висоти: нижні — ${lower} мм, верхні — ${upper} мм. Матеріали: фасад — ${facade}; стільниця — ${countertop}; фурнітура — ${hardware}. Орієнтовна ціна: ${total}. Додатково: `;
+            }
+
+            // Wardrobe tab
+            const wardrobeSection = document.getElementById('wardrobe-calc');
+            if (wardrobeSection && wardrobeSection.classList.contains('active')) {
+                const width = document.getElementById('w-width').value || '';
+                const height = document.getElementById('w-height').value || '';
+                const category = document.getElementById('w-category')?.selectedOptions[0]?.textContent || '';
+                const type = document.getElementById('w-type')?.selectedOptions[0]?.textContent || '';
+                const filling = document.getElementById('w-filling')?.selectedOptions[0]?.textContent || '';
+                const total = document.getElementById('w-total')?.innerText || '';
+
+                return `Бажаю замовити меблі. Тип: Шафа (${category}). Розміри: ширина=${width} мм, висота=${height} мм. Двері: ${type}. Наповнення: ${filling}. Орієнтовна ціна: ${total}. Додатково: `;
+            }
+
+            // Fallback
+            return 'Бажаю замовити меблі. Додатково: ';
+        };
+
     </script>
     <script src="js/script.js?v=2"></script>
 </body>

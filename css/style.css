@@ -250,13 +250,13 @@ main {
 }
 
 .container.content {
-    background: rgba(255, 255, 255, 0.72);
+    background: transparent;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 2.5rem 2rem;
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.06);
+    border: none;
 }
 
 .hero {
@@ -278,13 +278,13 @@ main {
 }
 
 .content {
-    background: rgba(255, 255, 255, 0.72);
+    background: transparent;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.06);
+    border: none;
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
@@ -505,15 +505,16 @@ main#app-content {
 
 .modal-content {
     position: relative;
-    background: rgba(255, 255, 255, 0.95);
+    /* use subtle glass look instead of solid white */
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     padding: 1.5rem;
     border-radius: 12px;
     max-width: 420px;
     width: calc(100% - 2rem);
-    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateY(-10px);
     animation: modalPop 180ms ease-out forwards;
 }
@@ -1487,6 +1488,15 @@ nav ul li:hover .dropdown-menu {
     font-size: 1.1rem;
 }
 
+/* Highlight effect when contact section is prefilled via calculator */
+.request-section.highlight-contact {
+    box-shadow: 0 10px 30px rgba(118,75,162,0.12);
+    border-radius: 12px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transform: translateY(-2px);
+}
+}
+
 .manufacturer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -1812,9 +1822,22 @@ header.nav-up {
     }
 }
 
-.calc-header {
+/* Calculator specific header: ensure it scrolls with content and supports hide-on-scroll */
+header.calc-header {
+    /* Override global header sticky */
+    position: static !important;
+    top: auto !important;
     text-align: center;
     margin-bottom: 3rem;
+    transition: transform 0.28s ease, opacity 0.28s ease;
+    will-change: transform, opacity;
+}
+
+/* Hidden state applied on scroll */
+header.calc-header.hidden-by-scroll {
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .calc-header h1 {
