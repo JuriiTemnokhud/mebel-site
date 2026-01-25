@@ -121,7 +121,7 @@
 }
 
 .splash-content h1 {
-    font-size: 2.5rem;
+    font-size: 1.25rem;
     font-family: 'Arial', sans-serif;
     animation: textFadeInUp 1s ease-out forwards;
 }
@@ -908,14 +908,14 @@ nav ul li:hover .dropdown-menu {
 
 .hero h1 {
     font-family: 'Marck Script', cursive;
-    font-size: 5rem;
+    font-size: 2.5rem;
     margin-bottom: 20px;
     animation: fadeInDown 1s ease-out;
 }
 
 .hero p {
     font-family: 'Marck Script', cursive;
-    font-size: 2.5rem;
+    font-size: 1.25rem;
     max-width: 900px;
     margin: 0 auto 20px;
     animation: fadeInUp 1s ease-out 0.5s;
@@ -924,7 +924,7 @@ nav ul li:hover .dropdown-menu {
 
 .hero .hero-subtitle {
     font-family: 'Marck Script', cursive;
-    font-size: 3.5rem;
+    font-size: 1.75rem;
     animation: fadeInUp 1s ease-out 1s;
     animation-fill-mode: backwards;
 }
