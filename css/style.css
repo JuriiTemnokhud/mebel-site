@@ -1660,75 +1660,52 @@ nav ul li:hover .dropdown-menu {
     /* Hero Section */
     .hero {
         height: auto !important;
-        /* Override 100vh */
-        min-height: 70vh;
-        padding-top: 100px !important;
-        /* Offset for sticky header */
-        padding-bottom: 3rem;
+        min-height: 60vh;
+        padding: 80px 1rem 2rem 1rem !important;
+        /* Minimal side padding */
         flex-direction: column;
+        border-radius: 0 !important;
     }
 
-    .hero h1 {
-        font-size: 2.2rem !important;
-        /* Scaled down from 5rem */
-        line-height: 1.3 !important;
-        margin-bottom: 1.5rem !important;
+    /* Container - Remove side padding for full width */
+    .container {
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
     }
 
-    .hero p {
-        font-size: 1.4rem !important;
-        /* Scaled down from 2.5rem */
-        line-height: 1.4 !important;
-    }
-
-    .hero .hero-subtitle {
-        font-size: 1.3rem !important;
-        /* Scaled down from 3.5rem */
-        margin-top: 1.5rem !important;
-        padding: 1.5rem !important;
-    }
-
-    /* Portfolio - Revert to Card Style */
+    /* Portfolio - Edge to Edge */
     .portfolio {
-        padding: 2rem 1rem;
+        padding: 1.5rem 0 !important;
     }
 
     .portfolio-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
-        /* Restore gap */
+        gap: 1.5rem;
+        /* Space between cards, but no side gaps */
     }
 
     .portfolio-item {
         display: flex !important;
         flex-direction: column !important;
         min-height: auto;
-        /* Revert to default curved borders and shadow by not overriding them here, 
-           or explicitly ensuring they persist if desktop styles are sufficient. 
-           Desktop styles (lines 356, 358) apply globally, so removing overrides enables them. */
-        margin-bottom: 0;
+        border-radius: 0 !important;
+        /* Full width edge-to-edge */
+        margin: 0 !important;
+        width: 100% !important;
     }
 
     .portfolio-text {
-        padding: 2rem !important;
-        /* Restore comfortable padding */
+        padding: 1.5rem !important;
+        /* Vertical and readable side padding */
         width: 100%;
-        order: 1;
-        /* Ensure Text is Top? Or image top? Image is usually beautiful. 
-                   Pic 1 shows text top. Default HTML order is Text then Image. 
-                   So no change needed unless we want Image top. */
     }
 
     .portfolio-image {
         width: 100%;
-        height: 250px;
-        /* Good sizing for mobile */
-        min-height: 250px;
-        order: 2;
-    }
-
-    .portfolio-img {
-        object-position: center center;
+        height: 280px;
+        /* Strong visual presence */
+        min-height: 280px;
     }
 
     .portfolio-img {
