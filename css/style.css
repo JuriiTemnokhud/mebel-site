@@ -1703,6 +1703,22 @@ nav ul li:hover .dropdown-menu {
         min-height: auto;
     }
 
+    .portfolio-text {
+        padding: 1.5rem !important;
+        width: 100%;
+    }
+
+    .portfolio-image {
+        width: 100%;
+        height: 250px;
+        /* Ensure visible height for image */
+        min-height: 250px;
+    }
+
+    .portfolio-img {
+        object-position: center center;
+    }
+
     /* Gallery Modal Mobile */
     .gallery-container {
         padding: 15px !important;
