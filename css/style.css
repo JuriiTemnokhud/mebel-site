@@ -1698,6 +1698,7 @@ nav ul li:hover .dropdown-menu {
     }
 
     .portfolio-item {
+        display: flex !important;
         flex-direction: column !important;
         min-height: auto;
     }
